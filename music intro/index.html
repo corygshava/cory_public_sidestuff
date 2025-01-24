@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/customrange.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+</head>
+<body>
+    <div class="content">
+        <div class="centered">
+            <div class="top">
+                <div class="image-container">
+                    <img src="placeholder.jpg" alt="Album Art">
+                </div>
+                <div class="info">
+                    <span class="brand">Warid Worldwide</span>
+                    <span class="artist">Shika Yako Glass</span>
+                    <span class="description">Halfrican Cuisine</span>
+                    <span class="time">00:00 / 02:00</span>
+                </div>
+            </div>
+            <div class="controls">
+                <div class="progress">
+                    <div class="mybar" id="marange">
+                        <div class="bar"></div>
+                    </div>
+                </div>
+                <div class="btns">
+                    <button class="btn"><i class="fa fa-backward"></i></button>
+                    <button class="btn"><i class="fa fa-play" style="
+                        translate: 4px 0;
+                    "></i></button>
+                    <button class="btn"><i class="fa fa-forward" style="
+                        translate: 4px 0;
+                    "></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let coverpic = document.querySelector('.image-container');
+        let theinfo = document.querySelector('.info');
+        let spans = theinfo.querySelectorAll('span');
+        let controls = document.querySelector('.controls');
+        let thebar = document.querySelector('#marange>.bar');
+        let btnsguy = document.querySelector('.btns');
+
+        function startAnimate() {
+            // animate the entrance
+            let timing = {
+                duration: 1200,
+                easing: 'ease-out',
+                fill: 'forwards'
+            };
+
+            // cover picture
+            coverpic.animate([
+                {opacity:0.5,translate: '-120px 0'},
+                {opacity:1,translate: '0 0'}
+            ],timing);
+
+            // song details
+            theinfo.animate([
+                {opacity: 0,translate: '20px 0'},
+                {opacity: 1,translate: '0 0'}
+            ],timing);
+
+            // controls
+            controls.animate([
+                {opacity: 0,translate: '0 20px'},
+                {opacity: 1,translate: '0 0'}
+            ],timing);
+
+            // controls (thebar)
+            let tmg = timing;
+            // tmg.duration = 120000;
+
+            thebar.animate([
+                {width: '0%'},
+                {width: '100%'}
+            ],{
+                duration: 120000,
+                easing: 'ease-out',
+                fill: 'forwards'
+            });
+
+            // controls (thebuttons)
+            theinfo.animate([
+                {opacity: 0,translate: '20px 0'},
+                {opacity: 1,translate: '0 0'}
+            ],timing);
+
+            let tmptym = timing;
+            // tmptym.delay = timing.duration;
+            timing.duration = 1200;
+
+            spans.forEach((el,id) => {
+                el.style.opacity = 0.3;
+                el.style.letterSpacing = '4px';
+
+                el.animate([
+                    {opacity: 0.3,translate: '20px 0',letterSpacing: '4px'},
+                    {opacity: 1,translate: '0 0',letterSpacing: '1px'}
+                ],timing);
+
+                // el.innerHTML += 'asdasd'
+                // tmptym.delay += 300;
+            });
+
+            let dur = 5000;
+            let myinter = setInterval(() => {
+                dur += 1000;
+                spans[3].innerHTML = `00:${(dur/1000).toString().padStart(2,'0')} / 02:00`;
+
+                if(dur >= 59000){
+                    clearInterval(myinter);
+                }
+            }, 1000);
+        }
+
+        startAnimate();
+    </script>
+</body>
+</html>

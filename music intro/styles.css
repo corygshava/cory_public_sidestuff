@@ -1,0 +1,147 @@
+:root {
+/*    --background-gradient: radial-gradient(circle at 50% 50%, #FFFFFF 0%, #000000 100%), conic-gradient(red, yellow, lime, aqua, blue, fuchsia, red);*/
+    --background-gradient: 
+        linear-gradient(154.48deg,#ff2f2f 10.43%,#000460 92.78%);
+    --bg2:
+        radial-gradient(100% 246.94% at 100% 0,#1115 0,#020063 100%)
+        linear-gradient(146.54deg,#1400ff .45%,#3a0000),
+        linear-gradient(168.97deg,#ff002e,#ff003d 74.04%),
+        linear-gradient(352.2deg,#b25bba 7.52%,#1700a7 77.98%),
+        linear-gradient(200.03deg,#a90000 12.99%,#00ffe0 87.21%),
+        linear-gradient(167.38deg,#b7d500 15.35%,#20a 89.57%);
+    --text-color: #fff;
+    --accent-color: #ff5252;
+}
+
+* {
+    box-sizing: border-box;
+    transition: 0.3s ease-out;
+}
+
+html{
+    background: #000;
+}
+
+body {
+    margin: 0;
+    font-family: run, Arial, sans-serif;
+}
+.content{
+    background: #000000;
+    /* background: repeating-linear-gradient(236.2deg, #000000 0%, #006a78 99%), linear-gradient(322.22deg, rgba(255, 0, 0, 0.88) 0%, #00004a 49%); */
+    background-blend-mode: lighten, normal;  
+    background-repeat: repeat, repeat; 
+    background-position: 0 0, 0 0;
+    background-color: black;
+    /* background-blend-mode: color-dodge, normal; */
+    background-size: cover;
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.centered {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    text-align: center;
+}
+
+.top {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.image-container {
+    height: 50vh;
+    width: 50vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-container img {
+    border-radius: 20px;
+    width: 250px;
+    height: auto;
+    aspect-ratio: 1;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    text-align: left;
+    gap: 10px;
+}
+
+.info .brand {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.info .artist {
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.info .description {
+    font-size: 1.2em;
+    color: #aaa;
+}
+
+.info .time {
+    display: inline-block;
+    margin: 20px 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+}
+.controls .progress #marange{
+    width: 44vw;
+    display: block;
+}
+
+.controls .btns{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+.controls .btn {
+    background: var(--accent-color);
+    color: var(--text-color);
+    border: none;
+    /* padding: 10px 20px; */
+    font-size: 1.2em;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 42px;
+    aspect-ratio: 1;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+.controls .btn i{
+    translate: 0 0;
+}
+
+.controls .btn:hover {
+    background: #ff7979;
+}
+
+.controls .btn i {
+    margin-right: 5px;
+}
