@@ -152,10 +152,16 @@
 		});
 
 		document.addEventListener('keydown', (e) => {
+			console.log(e.key);
+
 			if(e.key.toLowerCase() == 'h'){
 				let w = document.body.dataset.hidecursor;
 
 				document.body.dataset.hidecursor = w == "yes" ? "no" : "yes";
+			} else if(e.key.toLowerCase() == 'delete'){
+				localStorage.setItem(prefname,0);
+				alert('your score was deleted')
+				window.location.reload();
 			}
 		});
 
