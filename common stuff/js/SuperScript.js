@@ -75,7 +75,7 @@ function setTxt(what,element,no,mth = 1) {
 	}
 }
 
-function seTnpt(what,element,mth = 1,rno) {
+function setNpt(what,element,mth = 1,rno) {
 	var initial,rn = Number(mth);
 	var item = Number(rno) == 1 ? element : document.querySelector(element);
 	if(rn == 1){
