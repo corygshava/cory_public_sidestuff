@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CSV Reader</title>
+	<style>
+		:root{
+			--themeColor: #6a11cb;
+			--secColor: #2575fc;
+
+			--roundness: 12px;
+		}
+		*{
+			box-sizing: border-box;
+			transition: 0.3s ease-out;
+		}
+		body {
+			margin: 0;
+			font-family: Arial, sans-serif;
+			background: linear-gradient(135deg, var(--themeColor), var(--secColor));
+		}
+
+		.content{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: flex-start;
+			padding: 20px;
+			min-height: 100vh;
+		}
+
+		h1 {
+			text-align: center;
+			color: #fff;
+			margin-bottom: 20px;
+		}
+
+		/* form styles */
+		form {
+			background: #fff;
+			padding: 20px 30px;
+			border-radius: var(--roundness);
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+			width: 80%;
+			min-width: 300px;
+			max-width: 400px;
+			text-align: center;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 10px;
+			font-size: 16px;
+			font-weight: bold;
+			color: #333;
+		}
+		input[type="file"] {
+			margin-bottom: 20px;
+			padding: 10px;
+			width: 100%;
+			border: 1px solid #ccc;
+			border-radius: var(--roundness);
+		}
+		button {
+			background: linear-gradient(135deg, #6a11cb, #2575fc);
+			color: #fff;
+			border: none;
+			padding: 10px 20px;
+			border-radius: var(--roundness);
+			cursor: pointer;
+			font-size: 16px;
+			width: 100%;
+		}
+		button:hover {
+			/* filter: brightness(150%); */
+			scale: 1.03;
+			box-shadow: 0 0 12px var(--secColor);
+		}
+
+		/* the table guy */
+		#tableContainer {
+			margin-top: 20px;
+			min-width: 300px;
+			max-width: 1200px;
+			width: 100%;
+			background: #fff;
+			border-radius: var(--roundness);
+			padding: 20px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+			overflow-x: auto;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			text-align: left;
+			font-family: 'calibri','arial';
+		}
+		thead {
+			background-color: #646464;
+			color: #ffffff;
+		}
+
+		th, td {
+			padding: 10px;
+			border-bottom: 1px solid #ddd;
+		}
+
+		th {
+			font-weight: bold;
+		}
+
+		tr:nth-child(even) {
+			background-color: #cecece;
+		}
+
+		tbody tr:hover {
+			background-color: #f1f1f1;
+		}
+
+		.status-active {
+			color: green;
+			font-weight: bold;
+		}
+
+		.status-disabled {
+			color: red;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<div class="content">
+		<h1>CSV Reader</h1>
+		<form id="csvForm">
+			<label for="fileInput">Upload a CSV file:</label>
+			<input type="file" id="fileInput" accept=".csv">
+			<button type="button" id="uploadButton">Read it</button>
+		</form>
+	
+		<div id="tableContainer"></div>
+	</div>
+
+	<script>
+		document.getElementById('uploadButton').addEventListener('click', () => {
+			const fileInput = document.getElementById('fileInput');
+			const file = fileInput.files[0];
+
+			if (!file) {
+				alert('Please select a file.');
+				return;
+			}
+
+			const reader = new FileReader();
+
+			reader.onload = (event) => {
+				const content = event.target.result;
+				displayCSVAsTable(content);
+			};
+
+			reader.onerror = () => {
+				alert('Failed to read file.');
+			};
+
+			reader.readAsText(file);
+		});
+
+		function displayCSVAsTable(csvContent) {
+			const rows = csvContent.split('\n').filter(row => row.trim() !== '');
+			const tableContainer = document.getElementById('tableContainer');
+			
+			const table = document.createElement('table');
+			const headerRow = rows[0].split(',');
+
+			const thead = document.createElement('thead');
+			const headerTr = document.createElement('tr');
+
+			headerRow.forEach(header => {
+				const th = document.createElement('th');
+				th.textContent = header.trim();
+				headerTr.appendChild(th);
+			});
+
+			thead.appendChild(headerTr);
+			table.appendChild(thead);
+
+			const tbody = document.createElement('tbody');
+
+			for (let i = 1; i < rows.length; i++) {
+				const row = rows[i].split(',');
+				const tr = document.createElement('tr');
+
+				row.forEach(cell => {
+					const td = document.createElement('td');
+					td.textContent = cell.trim();
+
+					// Example for adding status-based classes
+					if (td.textContent.toLowerCase() === 'active') {
+						td.classList.add('status-active');
+					} else if (td.textContent.toLowerCase() === 'disabled') {
+						td.classList.add('status-disabled');
+					}
+
+					tr.appendChild(td);
+				});
+
+				tbody.appendChild(tr);
+			}
+
+			table.appendChild(tbody);
+
+			tableContainer.innerHTML = '';
+			tableContainer.appendChild(table);
+		}
+	</script>
+</body>
+</html>
