@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Date to Milliseconds</title>
+	<style>
+		:root{
+			--themecolor: #ff007b;
+			--roundness: 12px;
+		}
+
+		*{
+			transition: 0.3s ease-out;
+			box-sizing: border-box;
+		}
+		body {
+			font-family: Arial, sans-serif;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+			margin: 0;
+			background: url('../common stuff/wallz/wp2492211-91-days-wallpapers.png') no-repeat center center/cover;
+			color: #fff;
+		}
+
+		.container {
+			text-align: center;
+			max-width: 400px;
+			padding: 20px;
+			border-radius: 10px;
+			background: rgba(0, 0, 0, 0.6);
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+		}
+
+		h1 {
+			margin-bottom: 20px;
+		}
+
+		input, button {
+			margin: 10px 0;
+			padding: 10px;
+			font-size: 16px;
+			width: 100%;
+			box-sizing: border-box;
+			border: none;
+			border-radius: var(--roundness);
+		}
+
+		input {
+			background: rgba(255, 255, 255, 0.8);
+			color: #333;
+		}
+
+		button {
+			background: var(--themecolor);
+			color: #fff;
+			cursor: pointer;
+		}
+
+		button:hover {
+			filter: brightness(150%);
+			background: var(--themecolor);
+			box-shadow: 0 0 12px var(--themecolor);
+		}
+
+		#result {
+			margin-top: 20px;
+			font-size: 18px;
+		}
+		.timereport{
+			padding: 4px 12px;
+			background: var(--themecolor);
+			display: block;
+			border-radius: var(--roundness);
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Date gap calculator</h1>
+		<input type="date" id="dateInput" />
+		<button onclick="getDateGap()">Calculate</button>
+		<div id="result"></div>
+	</div>
+
+	<script src="../common stuff/js/SuperScript.js"></script>
+	<script>
+		let thegap = 0;
+
+		function getDateGap() {
+			const dateInput = document.getElementById('dateInput').value;
+			if (!dateInput) {
+				document.getElementById('result').textContent = "Please select a date.";
+				return;
+			}
+
+			const selectedDate = new Date(dateInput);
+			const now = new Date();	
+			const milliseconds = selectedDate - now;
+			thegap = milliseconds / 1000;
+
+			if (milliseconds < 0) {
+				document.getElementById('result').innerHTML = `<b class="timereport">${formatTime(Math.abs(thegap))}</b> in the past`;
+			} else if (milliseconds > 0) {
+				document.getElementById('result').innerHTML = `<b class="timereport">${formatTime(Math.abs(thegap))}</b> in the future`;
+			} else {
+				document.getElementById('result').innerHTML = "That's today, in fact right now. U a Genius.";
+			}
+		}
+	</script>
+</body>
+</html>
