@@ -4,6 +4,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>CSV Reader</title>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 	<style>
 		:root{
 			--themeColor: #6a11cb;
@@ -42,7 +44,7 @@
 			padding: 20px 30px;
 			border-radius: var(--roundness);
 			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-			width: 80%;
+			width: 100%;
 			min-width: 300px;
 			max-width: 400px;
 			text-align: center;
@@ -86,6 +88,7 @@
 			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 			overflow-x: auto;
 			text-align: center;
+			display: none;
 		}
 		table {
 			width: 100%;
@@ -119,26 +122,45 @@
 			color: red;
 			font-weight: bold;
 		}
+
+		.menubar{
+			width: 100%;
+			padding: 12px 15px;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+		}
 	</style>
 </head>
 <body>
 	<div class="content">
-		<h1>CSV Reader</h1>
+		<div id="formgroup">
+			<h1>CSV Reader</h1>
 
-		<form id="csvForm">
-			<label for="fileInput">Upload a CSV file:</label>
-			<input type="file" id="fileInput" accept=".csv">
-			<button type="button" id="uploadButton">Read it</button>
-		</form>
+			<form id="csvForm">
+				<label for="fileInput">Upload a CSV file:</label>
+				<input type="file" id="fileInput" accept=".csv">
+				<button type="button" id="uploadButton">Read it</button>
+			</form>
+		</div>
 
 		<div id="tableContainer">
 			<p><i>the CSV contents will show up here</i></p>
 		</div>
 	</div>
 
+	<div class="menubar w3-center w3-bottom">
+		<div class="w3-third">
+			<button class="w3-btn w3-text-white" onclick="pickAnother()">pick another CSV</button>
+		</div>
+	</div>
+
 	<script>
 		const fileguy = document.getElementById('fileInput');
 		const tableguy = document.querySelector('#tableContainer');
+		const fgroup = document.querySelector('#formgroup');
+		const menuguy = document.querySelector('.menubar');
+		const panels = [fgroup,tableguy];
 
 		document.getElementById('uploadButton').addEventListener('click', () => {
 			const file = fileguy.files[0];
@@ -203,6 +225,54 @@
 
 			table.appendChild(tbody)
 			tableguy.appendChild(table)
+
+			showpanels(1);
+		}
+
+		function pickAnother() {
+			showpanels(0)
+		}
+
+		function showpanels(n) {
+			let nxt = panels[n];
+			let cur = panels[(n + 1) % panels.length];
+			let animOptions = {
+				duration : 200,
+				easing: "ease-out",
+				fill: "forwards"
+			}
+
+			cur.animate([
+				{opacity: 1,translate: '0 0'},
+				{opacity: 0,translate: '0 20px'}
+			],animOptions);
+
+			setTimeout(() => {
+				console.log("showing the next one");
+				nxt.style.display = "block";
+				cur.style.display = "none";
+
+				nxt.animate([
+					{opacity: 0,translate: '0 20px'},
+					{opacity: 1,translate: '0 0'}
+				],animOptions);
+
+				let keyframes = (n == 0) ? 
+				[{opacity: 1},{opacity: 0}] : 
+				[{opacity: 0},{opacity: 1}];
+				let show = n==0 ? "none" : "flex"
+
+				menuguy.animate(keyframes,animOptions);
+
+				if(n == 0){
+					setTimeout(() => {
+						menuguy.style.display = show;
+					},animOptions.duration)
+				} else {
+					menuguy.style.display = show;
+				}
+
+			},animOptions.duration + 200)
 		}
 	</script>
 </body>
