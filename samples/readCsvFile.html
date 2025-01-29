@@ -47,13 +47,11 @@
 			max-width: 400px;
 			text-align: center;
 		}
-
 		label {
 			display: block;
 			margin-bottom: 10px;
 			font-size: 16px;
-			font-weight: bold;
-			color: #333;
+			font-weight: 700;
 		}
 		input[type="file"] {
 			margin-bottom: 20px;
@@ -73,7 +71,6 @@
 			width: 100%;
 		}
 		button:hover {
-			/* filter: brightness(150%); */
 			scale: 1.03;
 			box-shadow: 0 0 12px var(--secColor);
 		}
@@ -81,14 +78,14 @@
 		/* the table guy */
 		#tableContainer {
 			margin-top: 20px;
-			min-width: 300px;
 			max-width: 1200px;
-			width: 100%;
+			width: 80%;
 			background: #fff;
 			border-radius: var(--roundness);
 			padding: 20px;
 			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 			overflow-x: auto;
+			text-align: center;
 		}
 		table {
 			width: 100%;
@@ -100,20 +97,16 @@
 			background-color: #646464;
 			color: #ffffff;
 		}
-
 		th, td {
 			padding: 10px;
 			border-bottom: 1px solid #ddd;
 		}
-
 		th {
-			font-weight: bold;
+			font-weight: 700;
 		}
-
 		tr:nth-child(even) {
 			background-color: #cecece;
 		}
-
 		tbody tr:hover {
 			background-color: #f1f1f1;
 		}
@@ -122,7 +115,6 @@
 			color: green;
 			font-weight: bold;
 		}
-
 		.status-disabled {
 			color: red;
 			font-weight: bold;
@@ -132,22 +124,27 @@
 <body>
 	<div class="content">
 		<h1>CSV Reader</h1>
+
 		<form id="csvForm">
 			<label for="fileInput">Upload a CSV file:</label>
 			<input type="file" id="fileInput" accept=".csv">
 			<button type="button" id="uploadButton">Read it</button>
 		</form>
-	
-		<div id="tableContainer"></div>
+
+		<div id="tableContainer">
+			<p><i>the CSV contents will show up here</i></p>
+		</div>
 	</div>
 
 	<script>
+		const fileguy = document.getElementById('fileInput');
+		const tableguy = document.querySelector('#tableContainer');
+
 		document.getElementById('uploadButton').addEventListener('click', () => {
-			const fileInput = document.getElementById('fileInput');
-			const file = fileInput.files[0];
+			const file = fileguy.files[0];
 
 			if (!file) {
-				alert('Please select a file.');
+				alert('select a file first.');
 				return;
 			}
 
@@ -155,62 +152,57 @@
 
 			reader.onload = (event) => {
 				const content = event.target.result;
-				displayCSVAsTable(content);
+				showCsv(content);
 			};
 
 			reader.onerror = () => {
-				alert('Failed to read file.');
+				alert('There was an error reading the file, try again later.');
 			};
 
 			reader.readAsText(file);
 		});
 
-		function displayCSVAsTable(csvContent) {
-			const rows = csvContent.split('\n').filter(row => row.trim() !== '');
-			const tableContainer = document.getElementById('tableContainer');
-			
-			const table = document.createElement('table');
-			const headerRow = rows[0].split(',');
+		function showCsv(thecontent) {
+			tableguy.innerHTML = "";
 
-			const thead = document.createElement('thead');
-			const headerTr = document.createElement('tr');
+			// dont show empty rows
+			let rows = thecontent.split('\n').filter(val => val != '');
+			let titlerow = rows[0].split(',');
 
-			headerRow.forEach(header => {
-				const th = document.createElement('th');
-				th.textContent = header.trim();
-				headerTr.appendChild(th);
-			});
+			let table = document.createElement('table');
+			let thead = document.createElement('thead');
+			let tbody = document.createElement('tbody');
+			let toprow = document.createElement('tr');
 
-			thead.appendChild(headerTr);
-			table.appendChild(thead);
+			titlerow.forEach(el => {
+				let cell = document.createElement('th');
+				cell.textContent = el;
+				toprow.appendChild(cell);
+			})
 
-			const tbody = document.createElement('tbody');
+			thead.appendChild(toprow)
+			table.appendChild(thead)
 
-			for (let i = 1; i < rows.length; i++) {
-				const row = rows[i].split(',');
-				const tr = document.createElement('tr');
+			rows.forEach((el,id) => {
+				if(id != 0){
+					let row = document.createElement('tr');
+					let data = el.split(',');
 
-				row.forEach(cell => {
-					const td = document.createElement('td');
-					td.textContent = cell.trim();
+					data.forEach(celdata => {
+						let cell = document.createElement('td');
+						let xtraclass = (celdata == "active") ? "status-active" : (celdata == "disabled") ? "status-disabled" : "";
 
-					// Example for adding status-based classes
-					if (td.textContent.toLowerCase() === 'active') {
-						td.classList.add('status-active');
-					} else if (td.textContent.toLowerCase() === 'disabled') {
-						td.classList.add('status-disabled');
-					}
+						cell.innerText = celdata
+						cell.className = xtraclass
+						row.appendChild(cell)
+					})
 
-					tr.appendChild(td);
-				});
+					tbody.appendChild(row);
+				}
+			})
 
-				tbody.appendChild(tr);
-			}
-
-			table.appendChild(tbody);
-
-			tableContainer.innerHTML = '';
-			tableContainer.appendChild(table);
+			table.appendChild(tbody)
+			tableguy.appendChild(table)
 		}
 	</script>
 </body>
