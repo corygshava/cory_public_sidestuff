@@ -14,16 +14,19 @@ thenpt.addEventListener('keydown',e => {
         let thaval = thenpt.value;
 
         if(thaval != ""){
-            cleanExpression();
-
-            setTimeout(() => {
-                evaluateExpression();
-            },300);
+            docalc();
         }
     }
 })
 
 // functions
+function docalc() {
+    cleanExpression();
+
+    setTimeout(() => {
+        evaluateExpression();
+    },300);
+}
 
 function evaluateExpression() {
     const expression = thenpt.value;
@@ -105,31 +108,42 @@ function rerunme(n) {
     thenpt.value = caltxt;
 }
 
-function logcalc(w) {
-    if(w != ''){
-    	let id = cholder.querySelectorAll('.calc').length;
-        let m = document.createElement('div');
-        m.classList.add('calc');
+function logops() {
+    logcalc(thenpt.value,true);
+    docalc();
+    document.querySelector('.savebtn').classList.remove('w3-hide');
+    thenpt.value='';
+}
+function logcalc(w,rl) {
+    rl = rl == undefined ? false : true;
+    setTimeout(() => {
+        if(w != ''){
+            let cal = rl ? thenpt.value : w;
 
-        let b = document.createElement('b');
-        b.className = "ans";
-        let mtxt = getres(w) == 'ERROR!' ? getres(w) : (getres(w)).toLocaleString();
-        b.innerText = `${mtxt}`;
-        m.appendChild(b);
+        	let id = cholder.querySelectorAll('.calc').length;
+            let m = document.createElement('div');
+            m.classList.add('calc');
 
-        b = document.createElement('span');
-        b.className = "sum";
-        b.innerText = w;
-        m.appendChild(b);
+            let b = document.createElement('b');
+            b.className = "ans";
+            let mtxt = getres(cal) == 'ERROR!' ? "??" : (getres(cal)).toLocaleString();
+            b.innerText = `${mtxt}`;
+            m.appendChild(b);
 
-        b = document.createElement('button');
-        b.innerHTML = `<i class="fa fa-chevron-up"></i>`;
-        b.className = 'inbtn';
-        b.addEventListener('click',() => {rerunme(id);})
-        m.appendChild(b);
+            b = document.createElement('span');
+            b.className = "sum";
+            b.innerText = w;
+            m.appendChild(b);
 
-        cholder.appendChild(m);
-    }
+            b = document.createElement('button');
+            b.innerHTML = `<i class="fa fa-chevron-up"></i>`;
+            b.className = 'inbtn';
+            b.addEventListener('click',() => {rerunme(id);})
+            m.appendChild(b);
+
+            cholder.appendChild(m);
+        }
+    },400);
 }
 
 function initlogged() {
