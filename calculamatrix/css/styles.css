@@ -1,0 +1,130 @@
+:root{
+    --roundness: 15px;
+    --themecolor: #1134ff;
+    --seccolor: cyan;
+    --themegrad: linear-gradient(80deg, transparent, #000);
+
+    --bodybg: #222;
+    --panelbg: #333;
+    --textcolor: #fff;
+}
+
+*{
+    box-sizing: border-box;
+    transition: 0.3s ease-out;
+}
+body{
+	margin:0;
+    background-color: var(--bodybg);
+}
+button{
+    background-color: var(--themecolor);
+    color: var(--textcolor);
+    cursor: pointer;
+}
+button:hover{
+    background-color: #aaa !important;
+    color: #222 !important;
+    scale: 1.07;
+}
+.content {
+    display: flex;
+    place-content: center;
+    place-items: center;
+    padding: 40px;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    color: var(--textcolor);
+}
+.calculator {
+    max-width: 500px;
+}
+.calcer,.calcs{
+    background: var(--panelbg);
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /*padding: 0 0 20px 0;*/
+    overflow-y: auto;
+    max-height: 50vh;
+}
+.calcer .btns{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.calcer input,.calcer .btns button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 7px 12px;
+    border: 1px solid #ddd;
+    border-radius: var(--roundness);
+}
+.calcer .btns button {
+    background-color: var(--themecolor);
+    color: white;
+    border:none;
+    cursor: pointer;
+}
+.calcs .calc button:hover, .calcer .btns button:hover{
+    /*background-color: #eee;
+    color: #222;*/
+}
+
+.calcs button{
+	display: inline-block;
+}
+.calcs .calc {
+    position: relative;
+    padding: 12px;
+    border-bottom: 1px solid #aaaaaa;
+    display: flex;
+    flex-direction: row;
+    /* place-content: right; */
+    place-items: center;
+}
+.calcs .calc .inbtn {
+    position: absolute;
+    border: none;
+    right: 0;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    top: 25%;
+}
+.calcs .calc .ans {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: var(--roundness);
+    background-color: #576ffb66;
+    color: #000;
+}
+.calcs .calc .sum{
+    display: inline-block;
+    padding: 8px 20px;
+}
+.result {
+    margin-top: 10px;
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+.options{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-image: var(--themegrad);
+    width: auto;
+    padding: 12px 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.options button{
+    padding: 7px 15px;
+    border-radius: var(--roundness);
+    border:none;
+    background-color: var(--themecolor);
+    color: #fff;
+}

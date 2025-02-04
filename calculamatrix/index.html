@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/w3.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <title>Minimalist Calculator</title>
+</head>
+<body>
+	<div class="content">
+	    <div class="calculator">
+	        <div class="calcer">
+	        	<h1 class="w3-center">Minimalist calculator</h1>
+		        <input type="text" id="expression" placeholder="Enter calculation">
+		        <div class="result w3-center" id="result">--</div>
+		        <div class="btns">
+			        <button onclick="cleanExpression()"><i class="fa fa-magic"></i> clean up</button>
+			        <button onclick="evaluateExpression()"><i class="fa fa-calculator"></i> Evaluate</button>
+			        <button onclick="evaluateExpression();logcalc(thenpt.value);thenpt.value='';"><i class="fa fa-chevron-down"></i> log it</button>
+			    </div>
+	        </div>
+
+		    <div class="calcs">
+		        <h3 class="w3-center loggedreport">l---=;afk</h3>
+		        <div class="calcsholder">
+			        <div class="calc">
+			            <b class="ans">234</b>
+			            <span class="sum">2+3+4</span>
+			            <button class="inbtn" onclick="rerunme(0)"><i class="fa fa-refresh"></i></button>
+			        </div>
+			    </div>
+		    </div>
+
+		    <div class="options">
+		    	<button onclick="savecalcs()"><i class="fa fa-save"></i> save</button>
+		    	<button onclick="delcalcs()"><i class="fa fa-trash"></i> delete saved</button>
+		    </div>
+	    </div>
+	</div>
+
+    <script src="js/SuperScript.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
