@@ -8,8 +8,26 @@ var svd = [];
 var hugenumber = `2000000000000000000000000000`;
 var lastresult = 0;
 
-function evaluateExpression() {
+// event listeners
+thenpt.addEventListener('keydown',e => {
+    if(e.key.toLowerCase() == "enter"){
+        let thaval = thenpt.value;
 
+        if(thaval != ""){
+            if(thenpt.value.includes("ans")){
+                cleanExpression();
+            }
+
+            setTimeout(() => {
+                evaluateExpression();
+            },300);
+        }
+    }
+})
+
+// functions
+
+function evaluateExpression() {
     const expression = thenpt.value;
     let result = getres(expression);
 
@@ -33,9 +51,25 @@ function cleanExpression() {
     let exp = thenpt.value;
     let theres = lastresult == "ERROR!" ? 0 : Number(lastresult);
 
-    // replace ans with the number
-    exp = exp.replaceAll("ans",`${theres}`);
+    if(exp.includes("ans")){
+        // replace ans with the number
+        exp = exp.replaceAll("ans",`${theres}`);
+    }
+
+    if(exp.includes("rand(")){
+        // replace rand with a random number btwn 0 and 1 and rand(0,200) with a rando in that range
+        // exp = exp.replaceAll("rand");
+    } else if(exp.includes("rand")){
+        // replace rand with a random number btwn 0 and 1 
+        exp = exp.replaceAll("rand",Math.random());
+    }
+
     thenpt.value = '';
+
+    // replace randcalc with a random calculation
+    exp = exp.replaceAll("randcalc",getRandCalc())
+
+    // replace all '^' with ** to prevent errors
 
     setTimeout(() => {
         thenpt.value = exp;
@@ -143,6 +177,15 @@ function delcalcs() {
     setTimeout(() => {
         initlogged();
     },200);
+}
+
+// generates random calculations
+function getRandCalc(){
+    let a = Math.random() * 2500000;
+    let b = Math.random() * 5000000;
+    let sym = "*/+-^";
+
+    return `${a} ${sym.split('')[Math.floor(Math.random() * sym.length)]} ${b}`;
 }
 
 initlogged();

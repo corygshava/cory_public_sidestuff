@@ -61,6 +61,11 @@ button:hover{
     border: 1px solid #ddd;
     border-radius: var(--roundness);
 }
+.calcer input:focus{
+    outline: none;
+    box-shadow: 0 0 12px var(--themecolor);
+    scale: 1.05;
+}
 .calcer .btns button {
     background-color: var(--themecolor);
     color: white;

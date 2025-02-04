@@ -18,7 +18,7 @@
 		        <div class="btns">
 			        <button onclick="cleanExpression()"><i class="fa fa-magic"></i> clean up</button>
 			        <button onclick="evaluateExpression()"><i class="fa fa-calculator"></i> Evaluate</button>
-			        <button onclick="evaluateExpression();logcalc(thenpt.value);thenpt.value='';"><i class="fa fa-chevron-down"></i> log it</button>
+			        <button onclick="evaluateExpression();logcalc(thenpt.value);thenpt.value='';document.querySelector('.savebtn').classList.remove('w3-hide');"><i class="fa fa-chevron-down"></i> log it</button>
 			    </div>
 	        </div>
 
@@ -34,7 +34,7 @@
 		    </div>
 
 		    <div class="options">
-		    	<button onclick="savecalcs()"><i class="fa fa-save"></i> save</button>
+		    	<button onclick="savecalcs();this.classList.add('w3-hide')" class="savebtn w3-hide"><i class="fa fa-save"></i> update saved logs</button>
 		    	<button onclick="delcalcs()"><i class="fa fa-trash"></i> delete saved</button>
 		    </div>
 	    </div>
