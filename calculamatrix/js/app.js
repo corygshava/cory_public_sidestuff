@@ -14,9 +14,7 @@ thenpt.addEventListener('keydown',e => {
         let thaval = thenpt.value;
 
         if(thaval != ""){
-            if(thenpt.value.includes("ans")){
-                cleanExpression();
-            }
+            cleanExpression();
 
             setTimeout(() => {
                 evaluateExpression();
@@ -48,12 +46,16 @@ function evaluateExpression() {
 }
 
 function cleanExpression() {
-    let exp = thenpt.value;
+    let exp = thenpt.value.toLowerCase();
     let theres = lastresult == "ERROR!" ? 0 : Number(lastresult);
 
     if(exp.includes("ans")){
         // replace ans with the number
         exp = exp.replaceAll("ans",`${theres}`);
+    }
+
+    if(exp.includes("randcalc")){
+        exp = exp.replaceAll("randcalc",getRandCalc());
     }
 
     if(exp.includes("rand(")){
@@ -67,9 +69,9 @@ function cleanExpression() {
     thenpt.value = '';
 
     // replace randcalc with a random calculation
-    exp = exp.replaceAll("randcalc",getRandCalc())
 
     // replace all '^' with ** to prevent errors
+    exp = exp.replaceAll("^","**");
 
     setTimeout(() => {
         thenpt.value = exp;
