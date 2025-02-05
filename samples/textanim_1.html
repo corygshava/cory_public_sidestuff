@@ -50,6 +50,12 @@
 			animateStuff()
 		})
 
+		document.addEventListener('keydown',e => {
+			if(e.key.toLowerCase() == "p"){
+				animateStuff();
+			}
+		})
+
 		function animateStuff() {
 			let thetxt = sq.dataset.mytext;
 			let tokens = thetxt.split("");
@@ -78,6 +84,13 @@
 			let linger = Number(sq.dataset.linger);
 			let leavetime = Number(sq.dataset.leavetime);
 
+			let leavetiming = {
+				duration: leavetime,
+				easing: 'ease-in',
+				fill: "forwards",
+				delay: linger + del
+			}
+
 			txts.forEach(el => {
 				let timing = {
 					duration: animtime,
@@ -93,7 +106,10 @@
 				del += 30;
 			});
 
-			tmp.animate()
+			tmp.animate([
+				{opacity: 1,scale: 1},
+				{opacity: 0,scale: 0}
+			],leavetiming)
 		}
 	</script>
 </body>
