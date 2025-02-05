@@ -5,6 +5,11 @@
 <head>
 	<title>Simple text animation</title>
 	<style>
+		:root{
+			--bgcolor: #000;
+			--textcolor: #fff;
+			--bodybg: var(--bgcolor);
+		}
 		* {
 			box-sizing: border-box;
 			transition: 0.3s ease-out;
@@ -12,6 +17,7 @@
 		body {
 			margin: 0;
 			height: 100vh;
+			background: var(--bodybg);
 		}
 		.content {
 			display: flex;
@@ -21,7 +27,8 @@
 		}
 		.square {
 			aspect-ratio: 1;
-			background: #fff;
+			background: var(--bgcolor);
+			color: var(--textcolor);
 			font-family: 'poppins black';
 			display: flex;
 			align-items: center;
@@ -39,7 +46,7 @@
 <body>
 	<div class="content">
 		<!-- spaces are treated as line breaks btw -->
-		<div class="square" data-mytext="SHORTS" data-animtime="400" data-mydelay="500" data-linger="2400" data-leavetime="500">
+		<div class="square" data-mytext="SHORT VIDEOS" data-animtime="400" data-mydelay="500" data-linger="1500" data-leavetime="500">
 		</div>
 	</div>
 
@@ -57,6 +64,7 @@
 		})
 
 		function animateStuff() {
+			sq.innerHTML = "";
 			let thetxt = sq.dataset.mytext;
 			let tokens = thetxt.split("");
 			let tmp = document.createElement('div');
@@ -103,7 +111,7 @@
 					{opacity: 1,translate: '0 0'}
 				]
 				el.animate(keyframes,timing);
-				del += 30;
+				del += 77;
 			});
 
 			tmp.animate([
