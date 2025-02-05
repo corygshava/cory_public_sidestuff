@@ -1,0 +1,99 @@
+<!-- just a basic page that does some text animation using JS, might move it to its own folder if i start a series -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Centered Square</title>
+	<style>
+		* {
+			box-sizing: border-box;
+			transition: 0.3s ease-out;
+		}
+		body {
+			margin: 0;
+			height: 100vh;
+		}
+		.content {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+		}
+		.square {
+			aspect-ratio: 1;
+			background: #fff;
+			font-family: 'poppins black';
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 15vw;
+			text-align: center;
+			text-transform: uppercase;
+			letter-spacing: 16px;
+		}
+		.square span{
+			display: inline-block;
+		}
+	</style>
+</head>
+<body>
+	<div class="content">
+		<div class="square" data-mytext="SHORTS" data-animtime="400" data-mydelay="500" data-linger="2400" data-leavetime="500">
+		</div>
+	</div>
+
+	<script>
+		const sq = document.querySelector('.square');
+
+		document.addEventListener('DOMContentLoaded',(e) => {
+			animateStuff()
+		})
+
+		function animateStuff() {
+			let thetxt = sq.dataset.mytext;
+			let tokens = thetxt.split("");
+			let tmp = document.createElement('div');
+
+			tmp.classList.add("holder");
+
+			tokens.forEach(el => {
+				let b = undefined;
+
+				if(el != " "){
+					b = document.createElement('span');
+					b.innerHTML = el;
+					b.style.opacity = 0;
+				} else {
+					b = document.createElement('br');
+				}
+
+				tmp.appendChild(b);
+			})
+			sq.appendChild(tmp);
+
+			let txts = sq.querySelectorAll('span');
+			let del = Number(sq.dataset.mydelay);
+			let animtime = Number(sq.dataset.animtime);
+			let linger = Number(sq.dataset.linger);
+			let leavetime = Number(sq.dataset.leavetime);
+
+			txts.forEach(el => {
+				let timing = {
+					duration: animtime,
+					easing: "ease-out",
+					fill: "forwards",
+					delay: del
+				}
+				let keyframes = [
+					{opacity: 0,translate: '0 50px'},
+					{opacity: 1,translate: '0 0'}
+				]
+				el.animate(keyframes,timing);
+				del += 30;
+			});
+
+			tmp.animate()
+		}
+	</script>
+</body>
+</html>
