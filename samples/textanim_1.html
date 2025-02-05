@@ -46,7 +46,8 @@
 <body>
 	<div class="content">
 		<!-- spaces are treated as line breaks btw -->
-		<div class="square" data-mytext="SHORT VIDEOS" data-animtime="400" data-mydelay="500" data-linger="1500" data-leavetime="500">
+		<div class="square" data-mytext="SHORT VIDEOS" data-animtime="800" data-mydelay="500" data-linger="1800" data-leavetime="500">
+			<i>hit p to play</i>
 		</div>
 	</div>
 
@@ -55,6 +56,7 @@
 
 		document.addEventListener('DOMContentLoaded',(e) => {
 			animateStuff()
+			alert("hit P to replay the animation")
 		})
 
 		document.addEventListener('keydown',e => {
@@ -115,8 +117,8 @@
 			});
 
 			tmp.animate([
-				{opacity: 1,scale: 1},
-				{opacity: 0,scale: 0}
+				{opacity: 1,transform: 'scale(1) skewY(0)'},
+				{opacity: 0,transform: 'scale(0) skewY(30deg)'}
 			],leavetiming)
 		}
 	</script>
