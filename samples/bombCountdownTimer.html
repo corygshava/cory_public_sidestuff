@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Timer</title>
+    <style>
+        :root{
+            --bg: #000;
+            --txt: #f11;
+            --contbg: #000;
+        }
+        * {
+            box-sizing: border-box;
+            transition: 0.3s ease-out;
+        }
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: var(--bg);
+        }
+        .timer {
+            font-size: 2rem;
+            padding: 20px;
+            background: var(--contbg);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: 'digital dream','Digital-7';
+            min-width: 150px;
+            text-align: left;
+            color: var(--txt);
+        }
+    </style>
+</head>
+<body>
+    <div class="timer"><span id="countdown">1:00.000</span></div>
+    <script>
+        let time = 60000, display = document.getElementById("countdown");
+        function updateTimer() {
+            let min = Math.floor(time / 60000),
+                sec = Math.floor((time % 60000) / 1000),
+                ms = time % 1000;
+            display.textContent = `${min}:${sec.toString().padStart(2, '0')}.${ms.toString().padStart(3, '0')}`;
+            if (time <= 0) return alert("Time's up!");
+            time -= 10;
+            setTimeout(updateTimer, 10);
+        }
+
+        function setupTimer() {
+            let timeamt = 0;
+
+            do{
+                timeamt = Number(prompt("enter time in seconds"));
+            } while(isNaN(timeamt) || timeamt <= 0)
+
+            time = timeamt * 1000;
+            updateTimer();
+        }
+        setupTimer()
+    </script>
+</body>
+</html>
