@@ -1,0 +1,93 @@
+:root {
+    --font-size: 20px;
+    --font-color: #fff;
+    --background-color: #0b0b0b;
+    --font-family: 'quicksand','tw cen mt',Arial, sans-serif;
+    --bgcolor: #171717;
+    --textcolor: #fff;
+    --roundness: 15px;
+    --themeshadow: 0 3px 17px rgb(5 40 174);
+}
+*{
+    box-sizing: border-box;
+    transition: 0.3s ease-out;
+}
+body{
+    margin:0;
+/*    background-color: var(--background-color);*/
+}
+.content{
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+/*    background-color: #00000077;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 30px 0;
+    margin: 0;
+}
+
+.datetime-container {
+    font-size: var(--font-size);
+    color: var(--textcolor);
+    display: flex;
+    box-shadow: var(--themeshadow);
+    overflow: hidden;
+    border-radius: var(--roundness);
+    min-width: 360px;
+    scale: 2.4;
+}
+.datetime-container .mon{
+    background-color: var(--bgcolor);
+    color: var(--textcolor);
+    text-align: center;
+}
+.datetime-container span{
+    display: block;
+}
+.datetime-container .mon,.datetime-container .tym{
+    padding: 20px;
+}
+.datetime-container .tym{
+    color: var(--bgcolor);
+    background-color: var(--textcolor);
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    width: 80%;
+}
+.datetime-container .tym mtxt{
+    font-size: 40px;
+}
+
+#currentDate{
+    font-weight: 800;
+    font-size: 35px;
+    display: block;
+}
+
+/* for the adding timecounter */
+
+.timerholder{
+    padding: 20px 0;
+}
+.timers{
+    padding: 12px 0;
+}
+.timers .timer{
+    background-color: var(--bgcolor);
+    color: var(--font-color) !important;
+    padding: 12px 20px;
+    border-radius: var(--roundness);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    place-items: center;
+}
+.timers .timer span{
+    display: inline-block;
+}
