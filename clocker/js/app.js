@@ -27,4 +27,4 @@ function updateDateTime() {
 updateDateTime();
 
 // Update the time every 500 milliseconds
-setInterval(updateDateTime, 500);
+setInterval(updateDateTime, 1000);
