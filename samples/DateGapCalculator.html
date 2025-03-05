@@ -102,6 +102,8 @@
 			const milliseconds = selectedDate - now;
 			thegap = milliseconds / 1000;
 
+			console.log(thegap)
+
 			if (milliseconds < 0) {
 				document.getElementById('result').innerHTML = `<b class="timereport">${formatTime(Math.abs(thegap))}</b> in the past`;
 			} else if (milliseconds > 0) {

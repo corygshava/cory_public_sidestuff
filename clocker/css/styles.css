@@ -1,23 +1,26 @@
 :root {
     --font-size: 20px;
+    --themecolor: #22aaff;
     --font-color: #fff;
     --background-color: #0b0b0b;
     --font-family: 'quicksand','tw cen mt',Arial, sans-serif;
     --bgcolor: #171717;
     --textcolor: #fff;
     --roundness: 15px;
-    --themeshadow: 0 3px 17px rgb(5 40 174);
+    --themeshadow: 0 3px 17px rgba(5,40,174,0.5);
 }
 *{
     box-sizing: border-box;
     transition: 0.3s ease-out;
+}
+*:not(.fa){
+    font-family: var(--font-family) !important;
 }
 body{
     margin:0;
 /*    background-color: var(--background-color);*/
 }
 .content{
-    font-family: var(--font-family);
     background-color: var(--background-color);
 /*    background-color: #00000077;*/
     display: flex;
@@ -37,7 +40,7 @@ body{
     overflow: hidden;
     border-radius: var(--roundness);
     min-width: 360px;
-    scale: 2.4;
+    scale: 1;
 }
 .datetime-container .mon{
     background-color: var(--bgcolor);
@@ -90,4 +93,9 @@ body{
 }
 .timers .timer span{
     display: inline-block;
+}
+
+/* reusables */
+.themetxt{
+    color: var(--themecolor);
 }
