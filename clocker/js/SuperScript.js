@@ -338,7 +338,7 @@ function formatTime2(n) {
     for (var x = 0; x < timeUnits.length; x++) {
     	let unit = timeUnits[x];
 
-    	if (remsecs >= unit.duration){
+    	if (remsecs >= unit.duration || x == (timeUnits.length -1)){
     		let secs = Math.floor(remsecs / unit.duration);
     		remsecs %= unit.duration;
     		finObj.push({num: secs,title: plural(unit.name,secs)});
