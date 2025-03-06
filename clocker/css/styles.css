@@ -75,28 +75,6 @@ body{
 	display: block;
 }
 
-/* for the adding timecounter */
-
-.timerholder{
-	padding: 20px 0;
-}
-.timers{
-	padding: 12px 0;
-}
-.timers .timer{
-	background-color: var(--bgcolor);
-	color: var(--font-color) !important;
-	padding: 12px 20px;
-	border-radius: var(--roundness);
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	place-items: center;
-}
-.timers .timer span{
-	display: inline-block;
-}
-
 /* reusables */
 .themetxt{
 	color: var(--themecolor);
@@ -109,6 +87,7 @@ body{
 		bottom: 43px;
 		left: 0;
 		width: 100%;
+		max-width: 300px;
 		background: #0000;
 		padding: 7px 20px;
 		color: var(--textcolor);
@@ -116,6 +95,12 @@ body{
 		flex-direction: column;
 		z-index: 2;
 		display: none;
+		background-image: linear-gradient(80deg,transparent,#111);
+		border-radius: var(--roundness);
+	}
+	.timers .timers-container{
+		max-height: 70vh;
+		overflow: auto;
 	}
 
 	.timer-card {
@@ -126,6 +111,7 @@ body{
 		text-align: center;
 		width: 180px;
 		position: relative;
+		margin: 12px 0;
 	}
 	.timer-title {
 		font-size: 0.9rem;
