@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Get random image</title>
+
+	<!-- font awesome link (you can switch to online version if u want to) -->
+	<!-- offline -->
+	<link rel="stylesheet" type="text/css" href="../common stuff/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../common stuff/css/w3.css">
+
+	<script src="../common stuff/js/SuperScript.js"></script>
+	<!-- online -->
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+	<style>
+		:root{
+			--roundness:12px;
+		}
+		body:not([data-mode="dark"]){
+			--themecolor: #2277ff;
+			--textcolor:#222;
+			--containerbg: #eee;
+			--bodybg: #fff;
+		}
+		body[data-mode="dark"] {
+		    --themecolor: #2277ff;
+		    --textcolor: #ffffff;
+		    --containerbg: #202020;
+		    --bodybg: #111111;
+		}
+		* {
+			box-sizing: border-box;
+			transition: 0.3s ease-out;
+			font-family: calibri,arial,'tw cen mt';
+		}
+		html{
+			scroll-behavior: smooth;
+		}
+		body {
+			margin: 0;
+			background: var(--bodybg);
+			color: var(--textcolor);
+		}
+		a {
+		    padding: 12px 16px;
+		    display: inline-block;
+		    border-radius: var(--roundness);
+		    color: #fff;
+		    text-decoration: none;
+		    background: var(--containerbg);
+		    margin: 12px 8px;
+		    cursor: pointer;
+		}
+		a:hover{
+			background: var(--textcolor);
+			color: var(--bodybg);
+			scale: 1.07;
+			box-shadow: 0 0 12px var(--themecolor);
+		}
+
+		.content{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			min-height: 100vh;
+			padding: 40px 0;
+		}
+		.container{
+			padding: 12px;
+			max-width: 700px;
+			width: 96%;
+			text-align: center;
+		}
+		.container img{
+			width: 100%;
+			border-radius: var(--roundness);
+			opacity: 0;
+		}
+
+		.mybtn{
+			padding: 12px 17px;
+			margin: 12px 7px;
+			border-radius: var(--roundness);
+			border: none;
+			background: var(--containerbg);
+			color: var(--textcolor);
+		}
+		.mybtn:hover{
+			scale:1.1;
+			background: #777;
+			color: #fff;
+		}
+
+		.mainbg{
+			background: var(--themecolor) !important;
+		}
+
+		.imgdata{
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: row;
+			align-items: center;
+			border-top: 1px solid var(--containerbg);
+		}
+		.summ,.data{
+			padding: 8px 12px;
+			border-radius: var(--roundness);
+			color: inherit;
+/*			min-height: 300px;*/
+			flex: 1 0 400px;
+		}
+		.summ{
+			width: 30%;
+		}
+		.data {
+		    background: var(--containerbg);
+		    margin: 12px 0;
+		    text-align: left;
+		    opacity: 0;
+		    width: 70%;
+		    min-height: 200px;
+		}
+		.data b{
+			color: var(--themecolor);
+		}
+
+		.fl-left{float: left;}
+		.fl-right{float: right;}
+
+		footer{
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			text-align: center;
+			padding: 7px 20px;
+			background-image: linear-gradient(transparent,var(--bodybg));
+		}
+
+		.lightbox{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			min-height: 100vh;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, .7);
+		}
+		.lightbox img{
+			max-width: 98%;
+			max-height: 70vh;
+			border-radius: var(--roundness);
+		}
+	</style>
+</head>
+<body data-mode="dark">
+	<div class="content">
+		<div class="container">
+			<div>
+				<img src="??" alt="the random image" id="theimg">
+			</div>
+			<div class="options">
+				<button id="firstbtn" class="mybtn fl-left"><i class="fa fa-arrow-left"></i></button>
+				<button id="lastbtn" class="mybtn fl-right"><i class="fa fa-arrow-right"></i></button>
+				<button id="prevbtn" class="mybtn"><i class="fa fa-chevron-left"></i></button>
+				<button id="imgguy" class="mybtn mainbg">get random image</button>
+				<button id="nxtbtn" class="mybtn"><i class="fa fa-chevron-right"></i></button>
+			</div>
+
+			<div class="imgdata">
+				<div class="summ"></div>
+				<div class="data" id="thedata">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="lightbox" id="lightbox" style="display: none;" data-shown="0">
+		<img src="" id="seconder" class="w3-animate-zoom">
+		<button class="w3-btn w3-black w3-large w3-display-topright" onclick="toggleShow('#lightbox')"><i class="fa fa-times"></i></button>
+	</div>
+
+	<footer>
+		&copy; Nebula<b>W</b>
+	</footer>
+
+	<script>
+		var img = document.querySelector("#theimg");
+		var rand_btn = document.querySelector('#imgguy');
+		var nxt_btn = document.querySelector('#nxtbtn');
+		var prev_btn = document.querySelector('#prevbtn');
+		var first_btn = document.querySelector('#firstbtn');
+		var last_btn = document.querySelector('#lastbtn');
+
+		var summ = document.querySelector('.summ');
+		var imgdata = document.querySelector('.data');
+		var lightbx = document.querySelector('#lightbox');
+		var bximg = lightbx.querySelector('img');
+
+		var gottenimages = [];
+		var genImages = [];
+		var anData = [];
+		var cur_imgdata = [];
+
+		var limit = 1000;
+		var curid = limit;
+		var curling = "";
+
+		function getimg(n) {
+			let thelink = `https://picsum.photos/id/${n}/1280/720`;
+
+			img.src = thelink;
+			bximg.src = thelink;
+			img.style.opacity = 0;
+			imgdata.animate([
+				{opacity:1},{opacity:0}],
+				{duration: 300,fill:"forwards"})
+			curling = thelink;
+
+			updateSummary();
+		}
+
+		async function showimages() {
+			let thedata = await fetch('https://picsum.photos/v2/list')
+				.then(res => {
+					res.json();
+				})
+				.then(data => {data != undefined ? console.log(data,data.map(img => img.download_url)) : console.log(data,"not found");})
+				.catch(error => console.log(error));
+
+			console.log(thedata);
+			gottenimages = thedata
+		}
+
+		async function getimages(pej) {
+			let thedata = await fetch(`https://picsum.photos/v2/list?page=${pej}&limit=50`)
+				.then(res => res.json())
+				.catch(error => {return error;})
+
+			console.log(thedata);
+			gottenimages = thedata;
+		}
+
+		function updateSummary() {
+			summ.innerHTML = `id : <b>${curid}</b><br>
+				<a href="${curling}" target="blank">view image</a>
+				<a href="#thedata" onclick="getimgInfo(${curid})">view info</a>`;
+		}
+
+		getimgInfo = async (n) => {
+			let theres = await fetch(`https://picsum.photos/id/${n}/info`)
+				.then(res => res.json())
+				.then(data => data)
+				.catch(error => {alert("error getting image");console.log("error getting image",error)});
+
+			console.log(theres);
+
+			cur_imgdata = theres;
+
+			let thedata = '';
+
+			Object.keys(theres).forEach(el => {
+				thedata += `<b>${el}</b> : ${theres[el]}<br>`;
+			})
+
+			imgdata.innerHTML = `
+				<div>
+					<h3>Image info</h3>
+					<p>
+						${thedata}
+					</p>
+				</div>
+			`;
+
+			let timing = {
+				duration: 400,
+				easing: "ease-out",
+				fill: "forwards"
+			}
+
+			imgdata.animate([
+				{opacity:0},
+				{opacity:1}
+			],timing)
+		}
+
+		function openlightroom() {
+			toggleShowB('#lightbox',"flex","none");
+
+			let src = lightbx.querySelector('img').src
+			if(src != img.src){
+				lightbx.querySelector('img').src = img.src;
+			}
+		}
+
+		// setup events for the elements
+
+		rand_btn.addEventListener('click',() => {
+			curid = Math.floor(Math.random() * limit);
+			console.log(curid)
+			getimg(curid);
+		});
+
+		nxt_btn.addEventListener('click',() => {
+			curid += 1;
+			curid = curid >= limit ? limit : curid;
+
+			getimg(curid);
+		});
+
+		prev_btn.addEventListener('click',() => {
+			curid -= 1;
+			curid = curid <= 0 ? 0 : curid;
+
+			getimg(curid);
+		});
+
+		last_btn.addEventListener('click',() => {
+			curid = limit;
+			getimg(curid);
+		});
+
+		first_btn.addEventListener('click',() => {
+			curid = 0;
+			getimg(curid);
+		});
+
+		img.addEventListener('load',() => {
+			img.style.opacity = 1;
+		});
+
+		img.addEventListener('click',() => {
+			openlightroom();
+		})
+	</script>
+</body>
+</html>
