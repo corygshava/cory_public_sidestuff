@@ -1,17 +1,30 @@
 /*
 	*	Hi there, Cory here, this is a script full of functions to make your work  easier
-	*	Go check out www.nebulaworks.42web.io/res/ to find out how to use it or download the latest version
-	*	last modified on 12/nov/24 at 11:49
-	*	enjoy
+	*	Go check out github @corygshava to find out how to use it
+	*	Also pple keep modifying it like alot so ensure you have the latest version from this repo
+	*	https://github.com/corygshava/mylibraries
 */
 
-//common variables
 
-var lbs = localStorage;
-var sessionSupported = true;
-var sbs = sessionSupported ? sessionStorage : lbs;
+// [verified functions (not going anywhere)]------------------------------------------------------
+function toggleShow(me) {
+	//requires data-shown parameter to be attached to HTML object me
+	var item = document.querySelector(me),def = 0;
 
-//common reusables
+	if(item.dataset.shown == null){
+		def = item.style.display == "none" ? 0 : 1;
+	} else {
+		def = Number(item.dataset.shown);
+	}
+
+	if(def == 0){
+		item.style.display = 'block';
+		item.dataset.shown = 1;
+	} else {
+		item.style.display = 'none';
+		item.dataset.shown = 0;
+	}
+}
 
 function toggleShowB(me,ifoff,iffon) {
 	//requires data-shown parameter to be attached to HTML object me
@@ -27,19 +40,15 @@ function toggleShowB(me,ifoff,iffon) {
 	}
 }
 
-function toggleShowC(me,rn) {
-	//requires data-shown parameter to be attached to HTML object me
-	var item = rn == 1 ? me : document.querySelector(me);
-	var def = Number(item.dataset.shown);
+// [functions in probation]-----------------------------------------------------------------------
 
-	if(def == 0){
-		item.style.display = 'block';
-		item.dataset.shown = 1;
-	} else {
-		item.style.display = 'none';
-		item.dataset.shown = 0;
-	}
-}
+//common variables
+
+var lbs = localStorage;
+var sessionSupported = true;
+var sbs = sessionSupported ? sessionStorage : lbs;
+
+//common reusables
 
 function toggleClass(what,class1,class2,rno) {
 	var item = Number(rno) == 1 ? what : document.querySelector(what);
@@ -63,20 +72,8 @@ function seTxt(what,element,no,mth) {
 	}
 }
 
-function setTxt(what,element,no,mth = 1) {
-	var rn = Number(no);
-	var item = mth == 1 ? element : document.querySelector(element);
-	if(rn == 1){
-		item.innerHTML = what;
-	} else if (rn == 2){
-		item.innerHTML += what;
-	} else {
-		item.innerHTML = what + item.innerHTML;
-	}
-}
-
-function setNpt(what,element,mth = 1,rno) {
-	var initial,rn = Number(mth);
+function seTnpt(what,element,no,rno) {
+	var initial,rn = Number(no);
 	var item = Number(rno) == 1 ? element : document.querySelector(element);
 	if(rn == 1){
 		item.value = what;
@@ -102,16 +99,6 @@ function setElArray(part1,max,part2,element,start,rno) {
 function GetElement(me) {
 	var outp = document.querySelector(me);
 	return me;
-}
-
-function tabSwitch(no,series,norm,select) {
-	var items = document.querySelectorAll(series);
-
-	--no;
-	for (var i = 0; i < items.length; i++) {
-		items[i].className = norm;
-	}
-	items[no].className += ' ' + select;
 }
 
 function toggleContent(what,part1,part2,mth) {
@@ -171,13 +158,14 @@ function getIt(me,loc) {
 
 // new ops 
 
-// this one removes array elements from a certain index going forwards
 
 function splitfrom(what,startat){
+	// this one removes array elements from a certain index going forwards
+
 	var it = [];
 	for(let x=startat;x<what.length;x++){
 		it.push(what[x]);
-	}
+	} 
 	return it;
 }
 
@@ -189,8 +177,6 @@ function showIt(selector,display){
 	if(item != undefined){
 		item.style.display = display;
 	}
-
-	item.dataset.shown = 1;
 }
 
 function getRandom(min,max) {
@@ -207,12 +193,6 @@ function getRandom(min,max) {
 
 function lerp(min,max,factor) {
 	// factor must always be in the range 0,1
-	/* lerp calculation functions (they both work tho)
-		a,b,f
-		= ((b - a) * f) + a
-		= ((1 - f) * a) + (t * b)
-	*/
-
 	return (min + (factor * (max - min)));
 }
 
@@ -249,14 +229,14 @@ function realcurve(min,max,val) {
 	// body...
 	let factor = val;
 
-	// Ensure factor is between 0 and 1
-	factor = Math.min(1, Math.max(0, factor));
+    // Ensure factor is between 0 and 1
+    factor = Math.min(1, Math.max(0, factor));
 
-	// Calculate the value using a Bezier curve distribution
-	let t = factor < 0.5 ? 2 * factor : 2 * (1 - factor);
-	let value = min + t * t * (3 - 2 * t) * (max - min);
+    // Calculate the value using a Bezier curve distribution
+    let t = factor < 0.5 ? 2 * factor : 2 * (1 - factor);
+    let value = min + t * t * (3 - 2 * t) * (max - min);
 
-	return value;
+    return value;
 }
 
 // -----added on 4/7/2024 ---------- around 76 days after these ^
@@ -272,37 +252,34 @@ function toggleClass3(sel,c1,c2) {
 // -----added on 7/7/2024 ---------- around 3 days after these ^
 
 function copyToClipboard(selector) {
-	// Get the element by selector
-	const element = document.querySelector(selector);
-	
-	if (element) {
-		// Create a temporary textarea element to hold the text
-		const tempTextarea = document.createElement('textarea');
-		tempTextarea.value = element.innerText || element.value; // Use innerText or value depending on element type
-		document.body.appendChild(tempTextarea);
-		
-		// Select the text
-		tempTextarea.select();
-		tempTextarea.setSelectionRange(0, 99999); // For mobile devices
-		
-		// Copy the text to clipboard
-		try {
-			const successful = document.execCommand('copy');
-			console.log(successful ? 'Text copied to clipboard' : 'Unable to copy text');
-		} catch (err) {
-			console.error('Oops, unable to copy', err);
-		}
-		
-		// Remove the temporary textarea
-		document.body.removeChild(tempTextarea);
-	} else {
-		console.error(`Element not found for selector: ${selector}`);
-	}
+    // Get the element by selector
+    const element = document.querySelector(selector);
+
+    if (element) {
+        const tempTextarea = document.createElement('textarea');
+        tempTextarea.value = element.innerText || element.value;
+        document.body.appendChild(tempTextarea);
+
+        tempTextarea.select();
+        tempTextarea.setSelectionRange(0, 99999); // For mobile devices
+
+        try {
+            const successful = document.execCommand('copy');
+            console.log(successful ? 'Text copied to clipboard' : 'Unable to copy text');
+        } catch (err) {
+            console.error('Oops, unable to copy', err);
+        }
+
+        document.body.removeChild(tempTextarea);
+    } else {
+        console.error(`Element not found for selector: ${selector}`);
+    }
 }
 
 // -----added on 9/7/2024 ---------- around 2 days after these ^
 
 function isvalidid(id,list) {
+	// just checks if the id exists in the array
 	return id >= 0 && id < list.length;
 }
 
@@ -316,16 +293,16 @@ function getrange(min,max,amt) {
 
 function formatTime(n) {
 	const timeUnits = [
-		{ name: 'year', duration: 31536000 },
-		{ name: 'month', duration: 2592000 },
-		{ name: 'week', duration: 604800 },
-		{ name: 'day', duration: 86400 },
-		{ name: 'hour', duration: 3600 },
-		{ name: 'minute', duration: 60 },
-		{ name: 'second', duration: 1 }
-	];
+        { name: 'year', duration: 31536000 },
+        { name: 'month', duration: 2592000 },
+        { name: 'week', duration: 604800 },
+        { name: 'day', duration: 86400 },
+        { name: 'hour', duration: 3600 },
+        { name: 'minute', duration: 60 },
+        { name: 'second', duration: 1 }
+    ];
 
-	let remsecs = n;
+    let remsecs = n;
 	let stringparts = [];
 
 	for (var x = 0; x < timeUnits.length; x++) {
@@ -338,22 +315,22 @@ function formatTime(n) {
 		}
 	}
 
-	return stringparts.join(',');
+    return stringparts.join(',');
 }
 
 function formatTime2(n) {
 	const timeUnits = [
-		{ name: 'year', duration: 31536000 },
-		{ name: 'month', duration: 2592000 },
-		{ name: 'week', duration: 604800 },
-		{ name: 'day', duration: 86400 },
-		{ name: 'hour', duration: 3600 },
-		{ name: 'minute', duration: 60 },
-		{ name: 'second', duration: 1 }
-	];
+        { name: 'year', duration: 31536000 },
+        { name: 'month', duration: 2592000 },
+        { name: 'week', duration: 604800 },
+        { name: 'day', duration: 86400 },
+        { name: 'hour', duration: 3600 },
+        { name: 'minute', duration: 60 },
+        { name: 'second', duration: 1 }
+    ];
 
-	let remsecs = n;
-	let finObj = [];
+    let remsecs = n;
+    let finObj = [];
 
 	for (var x = 0; x < timeUnits.length; x++) {
 		let unit = timeUnits[x];
@@ -365,226 +342,59 @@ function formatTime2(n) {
 		}
 	}
 
-	return finObj;
+    return finObj;
 }
 
-// -----modified on 2/9/2024 ---------- around 50 days after these ^
+// -----added on 3/02/2025 ---------- around 206 days after these ^
+
+// modified tabswitch
+function tabSwitch(no,series,norm,select) {
+	var items = document.querySelectorAll(series);
+	// no -= 1;
+
+	if(no > items.length){
+		no = no % items.length;
+	}
+
+	console.log(items,no)
+
+	if(items.length > 0){
+		if(items[no] == undefined){
+			console.log("item doesnt exist")
+			return;
+		}
+	} else{
+		console.log("items dont exist")
+		return;
+	}
+
+	for (var i = 0; i < items.length; i++) {
+		items[i].style.display = norm;
+	}
+
+	items[no].style.display = select;
+}
+
+// -----added on 28/02/2025 ---------- around 231 days after these ^
+
+var debugmode = false;
+
+// -----added on 18/03/2025 ---------- around 18 days after these ^
 
 function plural(wad,n) {
-	wad = `${wad}`;
-	if (n === 1) {
-		res = wad;
-	} else if (wad.endsWith('us')) {
-		res = wad.slice(0, -2) + 'i';
-	} else if (wad.endsWith('s')) {
-		res = wad + 'es';
-	} else if (wad.endsWith('ay')) {
-		res = wad + 's';
-	} else if (wad.endsWith('y')) {
-		res = wad.slice(0,-1) + 'ies';
-	} else {
-		res = wad + 's';
-	}
-
-	return res;
-}
-
-// -----modified on 3/9/2024 ---------- around 1 day after this ^
-
-function toggleShow(me) {
-	//requires data-shown parameter to be attached to HTML object me
-	let item = document.querySelector(me),def = 0;
-	let ondisplay = item.dataset.on == undefined ? "block" : item.dataset.on;
-
-	if(item.dataset.shown == null){
-		def = item.style.display == "none" ? 0 : 1;
-	} else {
-		def = Number(item.dataset.shown);
-	}
-
-	if(def == 0){
-		item.style.display = ondisplay;
-		item.dataset.shown = 1;
-	} else {
-		item.style.display = 'none';
-		item.dataset.shown = 0;
-	}
-}
-
-function setdp(num,dp) {
-	// reduces decimal places in a number
-	let res = Number((((num - Math.floor(num)) + "").padStart(dp,"0")).substring(2,2 + dp)) / (10 ** dp);
-	res += Math.floor(num);
-	
-	return res;
-}
-
-function getdps(num) {
-	let rem = num - Math.floor(num);
-	let res = (rem + "").substring(2,2 + (rem.length));
-	return res;
-}
-
-// -----modified on 2/11/2024 ---------- around 63 days after this ^
-
-// to append to superscript (from the diamondeng gig)
-
-// update comments for setxt onto the latest one
-
-function startCountdown(targetDate,format,ifexpired,suffix) {
-	ifexpired = ifexpired == undefined ? 'PASSED!' : ifexpired;
-	suffix = suffix == undefined ? '' : suffix;
-	format = format == undefined ? 0 : format;
-
-	const target = new Date(targetDate).setHours(0, 0, 0, 0);
-
-	function updateCountdown() {
-		const now = new Date().getTime();
-		const timeLeft = target - now;
-		let outxt = '';
-
-		if (timeLeft <= 0) {
-			return ifexpired;
-		}
-
-		const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-		const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-		const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-		if(format == 0){
-			outxt = `${days} ${plural('day',days)}, ` +
-				`${String(hours).padStart(2, '0')} hours, ` +
-				`${String(minutes).padStart(2, '0')} min ` +
-				`${String(seconds).padStart(2, '0')} sec` +
-				suffix;
-		} else {
-			outxt = `${days}:` +
-				`${String(hours).padStart(2, '0')}: ` +
-				`${String(minutes).padStart(2, '0')}:` +
-				`${String(seconds).padStart(2, '0')}` +
-				suffix;
-		}
-
-		return outxt;
-	}
-
-	return updateCountdown();
-}
-
-function findIndex(arr, searchString) {
-	return arr.findIndex(element => element.includes(searchString));
-}
-
-function typetext(duration,word) {
-	let letr = 0,wad = "";
-
-	let myinter = setInterval(() => {
-		letr += 1;
-		wad = `${word.slice(0,letr)}_`;
-		subtxt.innerHTML = `${wad}`;
-
-		if(letr >= word.length){
-			clearInterval(myinter);
-		}
-	},(duration * 1000) / (word.length))
-}
-
-function openinnewtab(url) {
-    window.open(url, '_blank');
-}
-
-function clamp01(n,min,max) {
-	min = min == undefined ? 0 : min;
-	max = max == undefined ? 1 : max;
-
-	let res = 0;
-
-	res = (n > max) ? max : (n < min) ? min : n;
-
-	return res;
-}
-
-function openWhatsApp(number) {
-    const url = `https://wa.me/${number}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
-}
-
-function sendWhatsAppMessage(phoneNumber, message) {
-    // Sanitize the phone number and encode the message for URL
-    const sanitizedNumber = phoneNumber.replace(/\D/g, ''); // Remove non-digit characters using regex
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${sanitizedNumber}?text=${encodedMessage}`;
-
-    window.open(whatsappUrl, '_blank');
-}
-
-function hasDatePassed(dateString) {
-    const inputDate = new Date(dateString);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    return inputDate < today;
-}
-
-function changeAllClasses(theclass,newclass) {
-	let all = document.querySelectorAll(`.${theclass}`);
-
-	all.forEach(el => {
-		el.dataset.oldclass = theclass;
-		el.dataset.changedclass = newclass;
-		el.classList.add(newclass);
-		el.classList.remove(theclass);
-	});
-}
-
-function revertAllClasses() {
-	// requires elements to be set up with data-oldclass and data-changedclass
-	// basically switches around the class names
-
-	let all = document.querySelectorAll('[data-oldclass]');
-
-	all.forEach(el => {
-		let newclass = el.dataset.oldclass;
-		let theclass = el.dataset.changedclass;
-
-		el.dataset.oldclass = theclass;
-		el.dataset.changedclass = newclass;
-		el.classList.add(newclass);
-		el.classList.remove(theclass);
-	})
-}
-
-function scrollToElement(sel) {
-    const element = document.querySelector(sel);
-    if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (n === 1) {
+        res = wad;
+    } else if (wad.endsWith('us')) {
+        res = wad.slice(0, -2) + 'i';
+    } else if (wad.endsWith('s')) {
+        res = wad + 'es';
+    } else if (wad.endsWith('y')) {
+        res = wad.slice(0,-1) + 'ies';
+    } else if (wad.endsWith('_')){
+        res = wad.substr(0,wad.length - 1);
+    }else {
+        res = wad + 's';
     }
-}
 
-function runAfter(what,delay) {
-	setTimeout(() => {
-		what();
-	}, delay);
-}
-
-function animateCSSVariable(element, variable, from, to, duration, suffix) {
-	// enables smooth transitioning of variables (doesnt work for colors though)
-	suffix = suffix == undefined ? '' : suffix;
-	const startTime = performance.now();
-
-	function update() {
-		const elapsedTime = performance.now() - startTime;
-		const progress = Math.min(elapsedTime / duration, 1);
-		const currentValue = lerp(from,to,progress);
-
-		// Set the CSS variable
-		element.style.setProperty(variable, `${currentValue}`);
-
-		if (progress < 1) {
-			requestAnimationFrame(update);
-		}
-	}
-
-	requestAnimationFrame(update);
+    return res;
 }
