@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>TLF register</title>
+
+	<link rel="stylesheet" type="text/css" href="../common stuff/css/w3.css">
+	<link rel="stylesheet" type="text/css" href="../common stuff/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+
+	<script src="../common stuff/js/SuperScript.js"></script>
+	<script src="../common stuff/js/toappend.js"></script>
+</head>
+<body>
+	<header>
+		<h1>TLF register</h1>
+		<div>showing <b class="themetxt thecount">12</b> records</div>
+	</header>
+	<div class="content">
+		<div>
+			<b>Filter birthdays</b>
+		</div>
+		<div class="w3-bar filterguy">
+			<a class="w3-bar-item themebg-hover themebg themebtn" onclick="filterItems('*')" data-myfilter="*">all</a>
+			<a class="w3-bar-item themebg-hover themebtn" onclick="filterItems(this.dataset.myfilter)" data-myfilter="today">today</a>
+			<a class="w3-bar-item themebg-hover themebtn" onclick="filterItems(this.dataset.myfilter)" data-myfilter="tomorrow">tomorrow</a>
+			<a class="w3-bar-item themebg-hover themebtn" onclick="filterItems(this.dataset.myfilter)" data-myfilter="incoming">incoming</a>
+			<a class="w3-bar-item themebg-hover themebtn" onclick="filterItems(this.dataset.myfilter)" data-myfilter="passed">passed</a>
+		</div>
+		<div class="items">
+			<div class="item">
+				<div class="name">Dumas Karanja</div>
+				<div>birthday in <b>2 days</b></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="w3-modal" id="themodal" data-shown="0">
+		<button class="w3-btn w3-hover-red w3-black w3-right w3-large" onclick="toggleShow('#themodal')"><i class="fa fa-times"></i></button>
+		<div class="w3-modal-content w3-animate-zoom modebg thecontent" class="theinfo">
+			<div>
+				<h1>info for <b class="Name themetxt">Dumas K</b></h1>
+				<hr>
+			</div>
+			<div>
+				<div class="infobox"><b>Contact</b> : <span class="Contact"></span></div>
+				<div class="infobox"><b>Birthday</b> : <span class="Birthday"></span></div>
+				<div class="infobox"><b>Residence</b> : <span class="Residence"></span></div>
+				<div class="infobox"><b>Email</b> : <span class="Email"></span></div>
+				<div class="infobox"><b>IG</b> : <span class="IG"></span></div>
+				<div class="infobox w3-hide"><b>week1</b> : <span class="week1"></span></div>
+			</div>
+		</div>
+	</div>
+
+	<footer>
+		&copy; CoryG
+	</footer>
+
+	<script>
+		var parsed_data = undefined;
+
+		var ui_items = document.querySelector('.items');
+		var themodal = document.querySelector('#themodal');
+		var ui_filters = document.querySelector('.filterguy');
+		var ui_thefilters = ui_filters.querySelectorAll('a');
+		var ui_thecounter = document.querySelector('.thecount');
+
+		// for animations
+		let timing = {
+			duration: 700,
+			delay:100,
+			easing: 'ease-out',
+			fill: 'forwards'
+		}
+		let keyframes = [
+			{opacity: 0},
+			{opacity: 1}
+		]
+
+		function mekItems() {
+			parsed_data = getthedata();
+			// parsed_data = JSON.parse(thedata);
+			let data = parsed_data;
+			let template = data[0];
+
+			ui_items.innerHTML = ``;
+
+			data.forEach((el,id) => {
+				let item = document.createElement('div');
+
+				let payld = el.Birthday.split("/").reverse().join("/");
+				let yearsdate = `${payld}/ 2025`;
+				let bdate = new Date(yearsdate);
+				let timerem = daysUntil(bdate);
+				let specialclass = timerem != "tomorrow" && timerem != "today" && timerem != "passed" ? "incoming" : timerem;
+
+				item.className = `item ${specialclass} _is`;
+				item.innerHTML = `
+					<div>${el.Name}</div>
+					<div class="bdata">
+						birthday <b class="w3-tag">${bdate.toLocaleDateString()}</b><br>
+						<b class="themetxt">${timerem}</b>
+					</div>
+				`;
+
+				ui_items.appendChild(item);
+
+				// add click event
+				item.addEventListener('click',() => {
+					viewinfo(id);
+				})
+
+				// play animation
+				item.animate(keyframes,timing);
+				timing.delay += 200;
+			})
+
+			setupfilters();
+			ui_thecounter.innerHTML = data.length;
+		}
+
+		async function getthedata(){
+			try{
+				let res = await fetch('parsedata.php');
+
+				if(!res.ok){
+					throw new error("error getting the data");
+				}
+
+				let data = await res.JSON();
+
+				return data;
+			} catch(error) {
+				console.error(error);
+				return []
+			}
+		}
+
+		function setupfilters() {
+			ui_thefilters.forEach(el => {
+				if(el.dataset.myfilter != '*'){
+					let count = ui_items.querySelectorAll(`.item.${el.dataset.myfilter}`).length;
+	
+					if(count > 0){
+						el.innerHTML += ` <b class="w3-tag">${count}</b>`;
+					}
+				}
+			})
+		}
+
+		function highlightfilter(m) {
+			ui_thefilters.forEach(el => {
+				let theclass = "themebg";
+
+				if(el.dataset.myfilter == m){
+					el.classList.add(theclass);
+				} else {
+					el.classList.remove(theclass);
+				}
+			})
+		}
+
+		function viewinfo(n) {
+			let info = parsed_data[n];
+
+			Object.keys(info).forEach(el => {
+				let _ui = themodal.querySelector(`.${el}`);
+
+				if(_ui != undefined){
+					_ui.innerHTML = ` ${info[el]}`;
+				}
+			});
+
+			toggleShow(`#${themodal.id}`);
+		}
+
+		window.addEventListener('load',() => {
+			mekItems();
+		});
+
+		function filterItems(m) {
+			let items = ui_items.querySelectorAll('.item');
+			let found = 0;
+
+			highlightfilter(m);
+			m = m == "*" ? "_is" : m;
+
+			items.forEach((el,id) => {
+				let show = el.className.includes(m) ? "flex" : "none";
+				el.style.display = show;
+
+				found += show == 'flex' ? 1 : 0;
+			})
+
+			let nada = ui_items.querySelector('.item.nada');
+
+			if(nada == undefined){
+				console.log("making nada");
+
+				nada = document.createElement('div');
+
+				nada.className = "item nada";
+				nada.innerHTML = "<i>No items for this category</i>";
+
+				ui_items.appendChild(nada);
+				timing.delay = 300;
+				nada.animate(keyframes,timing);
+			} else {
+				nada.animate(keyframes,timing);
+			}
+
+			console.log(nada);
+			nada.style.display = found == 0 ? "flex" : "none";
+		}
+	</script>
+</body>
+</html>

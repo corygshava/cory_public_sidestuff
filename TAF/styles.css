@@ -1,0 +1,104 @@
+:root {
+	--themecolor: #00ff14;
+	--textcolor: #fff;
+	--bodybg: #121212;
+	--otherbg: #212121;
+	--containerbg: #333;
+	--hoverbg: #777;
+	--roundness: 12px;
+}
+
+* {
+	box-sizing: border-box;
+	transition: 0.3s ease-out;
+}
+
+body {
+	margin: 0;
+	background: var(--bodybg);
+	color: var(--textcolor);
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+	text-align: center;
+	font-family: Arial, sans-serif;
+}
+header{
+	padding: 30px;
+	border-radius: 0 0 var(--roundness) var(--roundness);
+	background: var(--otherbg);
+}
+h1{
+	text-transform: uppercase;
+}
+
+.content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 80vh;
+}
+.filterguy{
+	text-align: center;
+	display: flex;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
+	padding: 12px 0;
+}
+.filterguy a{
+	margin: 2px 3px;
+	font-size: 0.8em;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+.items,.filterguy{
+	width: 96%;
+	max-width: 800px;
+}
+.items .item{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px 12px;
+	margin: 12px 0;
+	opacity: 0;
+	background: var(--containerbg);
+	color: var(--textcolor);
+	border-radius: var(--roundness);
+	position: relative;
+	cursor: pointer;
+}
+.items .item:hover{
+	scale: 1.02;
+	background: var(--hoverbg);
+}
+.items .item .bdata{
+	text-align: right;
+}
+
+#themodal .thecontent{
+	border-radius: var(--roundness);
+}
+#themodal .infobox{
+	text-align: left;
+	padding: 12px 30px;
+}
+
+/* reusables */
+.modebg,.modebg-hover:hover{
+	background: var(--containerbg);
+}
+.themebg,.themebg-hover:hover{
+	background: var(--themecolor);
+}
+.themebtn{
+	padding: 12px 15px !important;
+	border-radius: var(--roundness);
+}
+.themetxt{
+	color: var(--themecolor);
+}
+.themeround{
+	border-radius: var(--roundness);
+}
