@@ -80,7 +80,7 @@
 		]
 
 		function mekItems() {
-			parsed_data = getthedata();
+			parsed_data = JSON.parse(getthedata());
 			// parsed_data = JSON.parse(thedata);
 			let data = parsed_data;
 			let template = data[0];
@@ -379,7 +379,7 @@
 				]
 			`;
 
-			// didnt work so imma comment it
+			// didnt work so imma bypass it
 			try{
 				let res = await fetch('parsedata.php');
 
