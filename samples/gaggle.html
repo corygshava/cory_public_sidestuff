@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- link to fontawesome -->
+    <link rel="stylesheet" href="../cm cash v2/css/font-awesome.min.css">
+    
+    <title>Gaggle search</title>
+
+    <style>
+        :root{
+            --themebg: rgba(0, 0, 0, 0.3);
+            --textcolor: #e1f9fb;
+            --roundness: 25px;
+        }
+        *{
+            transition: 0.3s ease-out;
+        }
+        *:not(.fa){
+            font-family: calibri;
+        }
+
+        body{
+            background-image: url('../images/uwp4469691.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: var(--textcolor);
+        }
+        .content{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+        }
+        .searchbox{
+            background-color: var(--themebg);
+            padding: 20px;
+            border-radius: var(--roundness);
+            width: 96%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .searchbox .searcher{
+            justify-content: space-around;
+            background-color: #fff;
+            padding: 12px;
+            width: 90%;
+            border-radius: var(--roundness);
+        }
+        .searchbox .searcher form{
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            width: 96%;
+        }
+        .searchbox .searcher input{
+            width: 80%;
+            padding: 7px 12px;
+            border-radius: var(--roundness);
+            border: none;
+            background-color: transparent;
+            /* border-bottom: 2px solid; */
+        }
+        .searchbox .searcher input:focus{
+            outline: none;
+            scale: 1.08;
+        }
+        .searchbox .searcher .thebtn{
+            border: none;
+            background-color: transparent;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(0deg,var(--themebg) 0%, transparent 72%);
+            width: 100%;
+            padding: 30px 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="searchbox">
+            <h1>ᘜᗩᘜᘜᒪᘿ Sᘿᗩᖇᑢᕼ</h1>
+            <p>yes, it exists. but you cant use it</p>
+            <div class="searcher">
+                <form action="https://www.google.com/search">
+                    <input type="text" placeholder="search something" name="q">
+                    <button class="thebtn"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer>
+        &copy;Nebula<b>D</b>
+    </footer>
+</body>
+</html>
