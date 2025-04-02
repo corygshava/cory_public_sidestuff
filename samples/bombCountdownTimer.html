@@ -3,7 +3,7 @@
 <head>
     <title>Timer</title>
     <style>
-        :root{
+        :root {
             --bg: #000;
             --txt: #f11;
             --contbg: #000;
@@ -37,13 +37,16 @@
     <div class="timer"><span id="countdown">1:00.000</span></div>
     <script>
         let time = 60000, display = document.getElementById("countdown");
+        let secsPlaces = 2;
+
         function updateTimer() {
             let min = Math.floor(time / 60000),
                 sec = Math.floor((time % 60000) / 1000),
                 ms = time % 1000;
-            display.textContent = `${min}:${sec.toString().padStart(2, '0')}.${ms.toString().padStart(3, '0')}`;
+            display.textContent = `${min}:${sec.toString().padStart(2, '0')}.${ms.toString().padEnd(3, '0').substr(0,secsPlaces)}`;
             if (time <= 0) return alert("Time's up!");
             time -= 10;
+
             setTimeout(updateTimer, 10);
         }
 
@@ -54,9 +57,14 @@
                 timeamt = Number(prompt("enter time in seconds"));
             } while(isNaN(timeamt) || timeamt <= 0)
 
+            do{
+                secsPlaces = Number(prompt("number of decimal places in seconds (1, 2 or 3)"));
+            } while(isNaN(secsPlaces) || secsPlaces <= 0)
+
             time = timeamt * 1000;
             updateTimer();
         }
+
         setupTimer()
     </script>
 </body>

@@ -1,0 +1,85 @@
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+nav{
+	text-align: right;
+	background-color: transparent;
+	background-image: linear-gradient(90deg,transparent,#111111aa);
+	color: var(--textColor);
+}
+nav.scrolled{
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	background-color: #fff;
+	background-image: none;
+	color: #222;
+	animation: animatetop 0.4s ease-out;
+}
+nav a {
+	text-decoration: none;
+	color: inherit;
+	padding: 14px 20px;
+	display: inline-block;
+}
+nav a.logo {
+	padding: 0 !important;
+	translate: 20px 5px;
+}
+nav a:hover {
+	background-color: var(--primaryColor);
+	border-bottom: 2px solid var(--primaryColor);
+	color: #fff !important;
+}
+nav a.current{
+	font-weight: 700;
+	border-bottom: 2px solid;
+	color: var(--primaryColor);
+}
+nav img {
+	height: 40px;
+}
+
+.section1, .section2 {
+	padding-bottom: 40px;
+}
+.imgpart{
+	text-align: center;
+}
+.sideimg {
+	max-width: 100%;
+	max-height: 80vh;
+	margin: 1px auto;
+	border-radius: 10px;
+	display: inline-block;
+}
+
+.numtext {
+	font-size: 48px;
+	color: #333;
+	color: var(--primaryColor);
+}
+.caption {
+	font-size: 16px;
+	color: #666;
+}
+.processItems .step {
+	font-size: 36px;
+	color: #333;
+	display: block;
+	margin-bottom: 10px;
+}
+.orderbtn {
+	background-color: var(--primaryColor);
+	color: white;
+	border: none;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 10px;
+	width: 80%;
+}

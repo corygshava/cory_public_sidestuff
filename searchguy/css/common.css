@@ -1,0 +1,280 @@
+/* holds reusable classes and most css variables */
+
+:root{
+    --primaryColor: #ff6600;
+    --textColor: #fff;
+    --roundSmall: 15px;
+
+    --shadowFar: 0 0 12px rgba(0,0,0,0.2);
+}
+
+*{
+    box-sizing: border-box;
+    transition: 0.3s ease-out;
+}
+html{
+    scroll-behavior: smooth;
+}
+
+/*hero section*/
+.hero,.smallhero{
+    background: url('../images/hero-bg.jpg') no-repeat center center/cover;
+    color: var(--textColor);
+}
+.smallhero{
+    height: 25vh;
+}
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    position: relative;
+}
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Adjust the overlay color and transparency */
+}
+.hero-content {
+    z-index: 1;
+}
+.hero h1 {
+    font-size: 3em;
+    margin: 0 0 20px;
+}
+.hero p {
+    font-size: 1.2em;
+    margin: 0 0 30px;
+}
+.hero a {
+    background: var(--primaryColor); /* Button color */
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-size: 1.2em;
+    border-radius: 5px;
+    transition: 0.3s ease-out;
+}
+.hero a.sec {
+    border: 1px solid var(--primaryColor);
+    background-color: transparent;
+    color: var(--primaryColor);
+}
+.hero a:hover {
+    background: #ff4500; /* Button hover color */
+    color: #fff;
+}
+
+.smallhero .mystuff{
+    padding: 45px;
+}
+
+/* section1 styles */
+.section1{
+    padding: 50px 0;
+    min-height: 100vh;
+    font-size: 17px;
+}
+.section1 .w3-col{
+    padding: 25px 20px;
+}
+.section1 i.quote{
+    color: var(--primaryColor);
+}
+.section1 hr{
+    border:2px solid var(--primaryColor);
+    width: 20%;
+    border-radius: 12px;
+}
+.section1 a{
+    font-size: 18px;
+    border-radius: var(--roundSmall);
+}
+
+/* section2 styles */
+.section2{
+    padding: 50px 20px;
+    background-color: #eeeeee;
+    text-align: center;
+    overflow: hidden;
+}
+.section2 .icon{
+    font-size: 45px;
+    display: inline-block;
+}
+.section2 .w3-col{
+    padding: 25px 0;
+}
+.section2 h2,.section2 .quote{
+    color: var(--primaryColor);
+}
+.section2 hr{
+    margin: 12px auto;
+}
+.section2 p{
+    font-size: 18px;
+}
+
+/* section3 styles */
+.section3{
+    text-align: center;
+    padding: 65px 25px;
+    overflow: hidden;
+}
+.section3 .w3-col{
+    padding: 25px;
+}
+
+/* shared section styles */
+.section1 h2,.section2 h2{
+    text-align: center;
+    font-weight: 800;
+}
+.section1 hr,.section2 hr{
+    border:2px solid var(--primaryColor);
+    width: 20%;
+    border-radius: 12px;
+}
+
+/*slideshow*/
+.slides{
+    height: 60vh;
+    aspect-ration: 1.7;
+    overflow: hidden;
+    border-radius: var(--roundSmall);
+    background-color: #222;
+}
+.slides .slide,.slides .standin{
+    padding: 25px;
+    height: inherit;
+    width: inherit;
+}
+.slides .slide .caption{
+    width: 100%;
+    padding: 25px;
+    color: #fff;
+    background-image: linear-gradient(transparent,#111);
+}
+
+/*footer*/
+footer {
+    background-color: #f8f8f8;
+    text-align: center;
+    color: #222;
+}
+footer .sharedfooter {
+    /*max-width: 1000px;*/
+    padding: 45px 20px;
+    margin: 0 auto 20px;
+}
+footer img {
+    width: 100px;
+    height: auto;
+}
+footer hr{
+    border: 1px solid var(--primaryColor);
+    opacity: 0.5;
+    border-radius: 15px;
+}
+footer iframe{
+    border: 1px solid transparent;
+    border-radius: 15px;
+    display: block;
+    width: 80%;
+    margin: 12px auto;
+    background: #fff;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+}
+footer .ender{
+    padding: 20px;
+}
+footer .contacts {
+    margin-top: 10px;
+}
+
+footer form{
+    text-align: center;
+}
+footer form input {
+    width: 80%;
+    padding: 10px;
+    background-color: #fff;
+    border:none;
+    border-bottom: 3px solid #ddd;
+    border-radius: 0;
+    margin: 20px 0;
+}
+footer form input:focus {
+    scale: 1.2;
+    outline: none;
+    box-shadow: var(--shadowFar);
+    border-color: var(--primaryColor);
+}
+footer form button {
+    margin:12px 0;
+    background-color: var(--primaryColor);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: var(--roundSmall);
+}
+footer form button:hover {
+    scale: 1.2;
+    box-shadow: var(--shadowFar)
+}
+footer a {
+    margin: 15px 10px;
+    color: var(--textColor);
+    text-decoration: none;
+    display: inline-block;
+}
+footer a:hover {
+    color: var(--primaryColor);
+    scale:1.5;
+}
+footer a.nebulalinks:hover {
+    color: dodgerblue;
+}
+.deets{
+    margin: 12px 0;
+}
+.deets .iconpart{
+    padding: 0 25px;
+}
+
+/* common styles */
+
+.primarybg{
+    background-color: var(--primaryColor);
+    color: var(--textColor);
+}
+button .icon1,a .icon1{
+    opacity: 0;
+    translate: -12px 0px;
+}
+button:hover .icon1,a:hover .icon1{
+    opacity: 1;
+    translate: 0px 0;
+}
+
+.showup{
+    position: relative;
+    animation: opac 1.3s ease-out,animatebottom 0.9s ease-out;
+}
+
+.heightguy{
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+}

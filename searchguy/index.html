@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- link to fontawesome -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/w3.css">
+    
+    <title>Gaggle search</title>
+
+    <style>
+        :root{
+            --themebg: rgba(0, 0, 0, 0.7);
+            --themecolor: #0071ff;
+            --textcolor: #e1f9fb;
+            --roundness: 25px;
+        }
+        *{
+            transition: 0.3s ease-out;
+        }
+        *:not(.fa){
+            font-family: calibri;
+        }
+
+        body{
+            background-image: url('media/images/wp1913429-mirrors-edge-wallpapers.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: var(--textcolor);
+            margin: 0;
+        }
+        a{
+            text-decoration: none;
+            color: inherit;
+        }
+        .content{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-image: linear-gradient(80deg,rgba(0,0,0,0.3),var(--themebg));
+        }
+        .searchbox {
+            background-color: var(--themebg);
+            padding: 20px;
+            border-radius: var(--roundness);
+            width: 96%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            box-shadow: 0 0 12px rgba(0,0,0,0.3),0 0 12px var(--themecolor) inset;
+        }
+        .searchbox #hedtxt {
+            position: relative;
+            font-size: 30px;
+            color: var(--textcolor);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+            font-weight: 900;
+            letter-spacing: 5px;
+            opacity: 0;
+        }
+        .searchbox #hedtxt::after{
+            content: '';
+            display: block;
+            overflow: none;
+            width: 200px;
+            background-color: var(--textcolor);
+            height: 2px;
+            opacity: 0;
+            translate: 0 -50px;
+            transition: 0.2s ease-out;
+        }
+        .searchbox #hedtxt.done::after{
+            opacity: 1;
+            translate: 0 0;
+        }
+        .searchbox p{
+            opacity: 0;
+        }
+        .searchbox .searcher{
+            justify-content: space-around;
+            background-color: #fff;
+            padding: 12px;
+            width: 90%;
+            border-radius: var(--roundness);
+            opacity: 0;
+        }
+        .searchbox .searcher form{
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            width: 96%;
+        }
+        .searchbox .searcher input{
+            width: 80%;
+            padding: 7px 12px;
+            border-radius: var(--roundness);
+            border: none;
+            background-color: transparent;
+            /* border-bottom: 2px solid; */
+        }
+        .searchbox .searcher input:focus{
+            outline: none;
+            scale: 1.08;
+        }
+        .searchbox .searcher .thebtn{
+            border: none;
+            background-color: transparent;
+        }
+
+        .sengines{
+            padding: 20px;
+        }
+        .sengines button{
+            aspect-ratio: 1;
+        }
+        .sengines button:hover{
+            scale: 1.1;
+            color: var(--themecolor);
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(0deg,var(--themebg) 0%, transparent 72%);
+            width: 100%;
+            padding: 30px 40px;
+        }
+
+        .modebg{
+            background-color: var(--themebg) !important;
+            color: var(--textcolor);
+        }
+        .hoverthemebg:hover,.themebg{
+            background-color: var(--themecolor);
+        }
+        .roundguy{
+            border-radius: var(--roundness);
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="searchbox">
+            <h1 id="hedtxt" data-mytext="ᘜᗩᘜᘜᒪᘿ Sᘿᗩᖇᑢᕼ"></h1>
+            <p>yes, it exists.</p>
+            <div class="searcher">
+                <form action="https://www.google.com/search" target="_blank">
+                    <input type="text" placeholder="search something" name="q">
+                    <button class="thebtn"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+
+            <div class="sengines">
+                <button data-mylink="https://www.google.com/search?q" data-mycaption="search gaggle" class="w3-btn w3-circle w3-white"><i class="fa fa-google"></i></button>
+                <button data-mylink="https://www.youtube.com/search?q" data-mycaption="search YT" class="w3-btn w3-circle"><i class="fa fa-youtube-play"></i></button>
+                <button data-mylink="" data-mycaption="search bing" class="w3-btn w3-circle"><i class="fa fa-windows"></i></button>
+                <button data-mylink="" data-mycaption="pirate something" class="w3-btn w3-circle"><i class="fa fa-anchor"></i></button>
+                <button data-mylink="" data-mycaption="do research on" class="w3-btn w3-circle"><i class="fa fa-wikipedia-w"></i></button>
+                <div class="w3-dropdown-hover">
+                    <button class="w3-btn w3-circle"><i class="fa fa-chevron-down"></i></button>
+                    <div class="w3-dropdown-content modebg w3-bar-block w3-animate-fade roundguy">
+                        <a data-mylink="" data-mycaption="" class="w3-bar-item hoverthemebg" href="#">apkpure</a>
+                        <a data-mylink="" data-mycaption="" class="w3-bar-item hoverthemebg" href="#">tor</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy;Nebula<b>D</b>
+    </footer>
+    
+    <script src="js/toappend.js"></script>
+    <script src="js/SuperScript.js"></script>
+
+    <script>
+        let searchbox = document.querySelector('.searchbox');
+        let hed = searchbox.querySelector("#hedtxt");
+        let par = searchbox.querySelector("p");
+        let search = searchbox.querySelector(".searcher");
+        let theform = search.querySelector("form");
+        let s_engines = searchbox.querySelector(".sengines");
+
+        let introDuration = 300;
+        let animdata = {
+            keyframes1 : [
+                    {opacity: 0,translate: '0 -20px'},
+                    {opacity: 1,translate: '0 0'}
+                ],
+            Fade_keyframes : [
+                    {opacity: 0},
+                    {opacity: 1}
+                ],
+            hedKeyframes : [
+                {scale:1,filter:"brightness(100%)",textShadow:"0 0 12px transparent"},
+                {scale: 1.1,filter:"brightness(170%)",textShadow:"0 0 12px var(--themecolor)"},
+                {scale: 1,filter:"brightness(100%)",textShadow:"0 0 7px var(--themecolor)"}
+            ],
+            timing : {
+                    duration: introDuration,
+                    easing: "ease-out",
+                    fill:"forwards"
+                }
+        }
+
+        function make_heading(params) {
+            let mm = hed.dataset.mytext;
+            let intertime = 200,duration = 2000,timer = 0;
+
+            let theinter = setInterval(() => {
+                timer += intertime;
+
+                let f = (timer / duration);
+                let curid = Math.floor(f * hed.dataset.mytext.length);
+                let randtxt = shuffleString(hed.dataset.mytext);
+                let mytext = hed.dataset.mytext;
+                let thetext = replacePart(mytext,randtxt,f);
+
+                hed.innerHTML = `${thetext}`;
+
+                if(f >= 1){
+                    clearInterval(theinter);
+
+                    animateItems();
+                }
+            }, intertime);
+        }
+
+        function animateItems() {
+            hed.animate(animdata.hedKeyframes,animdata.timing)
+
+            let thedelay = animdata.timing.duration;
+
+            thedelay += 200;
+            par.animate(animdata.keyframes1,{...animdata.timing,delay: thedelay});
+
+            thedelay += animdata.timing.duration;
+            search.animate(animdata.keyframes1,{...animdata.timing,delay: thedelay});
+
+            thedelay += animdata.timing.duration;
+            s_engines.animate(animdata.Fade_keyframes,{...animdata.timing,delay: thedelay});
+
+            setTimeout(() => {
+                hed.classList.add("done");
+            }, 400);
+        }
+        
+        function shuffleString(m) {
+            let res = "";
+
+            for (let x = 0; x < m.length; x++) {
+                res += m.charAt(Math.floor(Math.random() * m.length));
+            }
+
+            return res;
+        }
+
+        // function replacePart(s1:string,s2:string,f: float){ // enable for accurate intellisense
+        function replacePart(s1,s2,f){
+            // make sure both strings have the same legnth
+            // replace parts of s1 with s2 and return the result
+            s2 = s2.padEnd(s1.length,"-");
+            s2 = s2.slice(0,s1.length);
+
+            let wads = Math.floor(f * s1.length);
+            let part1 = s1.slice(0,wads);
+            let part2 = s2.slice(wads,wads + s2.length);
+            let res = `${part1}${part2}`;
+            return res;
+        }
+
+        function runthepage(){
+            setupEngines();
+
+            s_engines.style.opacity = '0';
+            par.style.opacity = '0';
+            search.style.opacity = '0';
+            hed.style.opacity = '1';
+
+            hed.innerHTML = hed.dataset.mytext.split("").map((el,id) => {return `-`}).join("");
+            searchbox.animate(animdata.keyframes1,animdata.timing);
+
+            setTimeout(() => {
+                make_heading();
+            }, introDuration);
+        }
+
+        function setupEngines() {
+            // get buttons, give them events, calls setupform function
+
+            let btns = s_engines.querySelectorAll("[data-mylink]");
+
+            btns.forEach((el,id) => {
+                el.addEventListener('click',() => {
+                    let act = el.dataset.mylink;
+                    let mcap = el.dataset.mycaption;
+
+                    btns.forEach((mel) => {mel.classList.remove("w3-white")});
+
+                    el.classList.add("w3-white");
+                    setupform(act,mcap);
+                })
+            })
+        }
+
+        function setupform(newact,cap) {
+            newact = newact == "" ? "https://www.google.com/search?q" : newact;
+            cap = cap == "" ? "search usin gaggle" : cap;
+
+            theform.action = newact.split("?")[0];
+            let inputname = "q";
+
+            inputname = newact.split("?")[1] != undefined ? newact.split("?")[1].split("=")[0] : inputname;
+
+            let thenpt = theform.querySelector("input");
+
+            thenpt.name = inputname;
+            thenpt.placeholder = cap;
+        }
+        window.addEventListener('load',() => {
+            console.log("page has loaded");
+            runthepage();
+        })
+
+    </script>
+</body>
+</html>
