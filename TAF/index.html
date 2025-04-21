@@ -82,7 +82,7 @@
 		function mekItems() {
 			thedata = getthedata2();
 			console.log(thedata);
-			parsed_data = JSON.parse(thedata);
+			parsed_data = thedata;
 			let data = parsed_data;
 			let template = data[0];
 
@@ -123,7 +123,7 @@
 		}
 
 		function getthedata2() {
-			return `
+			const rawdata = `
 				[
 				  {
 				    "Name": "Tony Eddy",
@@ -379,6 +379,39 @@
 				  }
 				]
 			`;
+
+			let rawlist = JSON.parse(rawdata);
+
+			let today = new Date();
+
+			console.log("unsorted: ",rawlist);
+
+			const daystill = (dte) => {
+				let yy = today.getFullYear();
+				let moon = Number(dte.split("/")[0]);
+				let day = Number(dte.split("/")[1]);
+				let bdate = new Date(yy,day,moon - 1);
+
+				if(bdate < today){
+					bdate = new Date(yy + 1,day,moon - 1);
+				}
+
+				let timegap = bdate - today;
+				let days = timegap / (1000 * 60 * 60 * 24);
+
+				return days;
+			}
+
+			let sorted = [...rawlist].sort((a,b) => {
+				let dist_a = daystill(a.Birthday);
+				let dist_b = daystill(b.Birthday);
+
+				return dist_a - dist_b;
+			})
+
+			console.log("sorted, kinda: ",sorted);
+
+			return sorted;
 		}
 
 		async function getthedata(){
