@@ -102,6 +102,7 @@
 					<div>${el.Name}</div>
 					<div class="bdata">
 						birthday <b class="w3-tag">${bdate.toLocaleDateString()}</b><br>
+						<b>${el.daysto}</b><br>
 						<b class="themetxt">${timerem}</b>
 					</div>
 				`;
@@ -361,8 +362,8 @@
 				  },
 				  {
 				    "Name": "Raphael Ndombi",
-				    "Contact": "20/4",
-				    "Birthday": "",
+				    "Contact": "",
+				    "Birthday": "20/4",
 				    "Residence": "",
 				    "Email": "",
 				    "IG name": "Tyrieraph",
@@ -381,35 +382,41 @@
 			`;
 
 			let rawlist = JSON.parse(rawdata);
-
 			let today = new Date();
 
-			console.log("unsorted: ",rawlist);
+			console.log(today)
 
+			// this function gets days to a date
 			const daystill = (dte) => {
+				// console.log("sys: ",today);
 				let yy = today.getFullYear();
-				let moon = Number(dte.split("/")[0]);
-				let day = Number(dte.split("/")[1]);
-				let bdate = new Date(yy,day,moon - 1);
+				let moon = Number(dte.split("/")[1]);
+				let day = Number(dte.split("/")[0]);
+				let bdate = new Date(yy,moon - 1,day);
+
+				// console.log("them: ",bdate)
 
 				if(bdate < today){
-					bdate = new Date(yy + 1,day,moon - 1);
+					bdate = new Date(yy + 1,moon - 1,day);
 				}
 
 				let timegap = bdate - today;
 				let days = timegap / (1000 * 60 * 60 * 24);
 
-				return days;
-			}
+				return Math.ceil(days);
+			};
 
+			// add the days remaining to each item
+			rawlist.forEach((el,id) => {
+				rawlist[id]["daysto"] = daystill(el.Birthday);
+			});
+
+			// sort the list of names
 			let sorted = [...rawlist].sort((a,b) => {
-				let dist_a = daystill(a.Birthday);
-				let dist_b = daystill(b.Birthday);
+				let diff = a.daysto - b.daysto;
 
-				return dist_a - dist_b;
-			})
-
-			console.log("sorted, kinda: ",sorted);
+				return diff;
+			});
 
 			return sorted;
 		}
