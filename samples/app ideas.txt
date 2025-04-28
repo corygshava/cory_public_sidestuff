@@ -1,0 +1,19 @@
+app ideas
+
+upload manager
+	uploader but on steroids. its just a simple page that records files uploaded to a server. it keeps track of files uploaded. on the uploads page it checks if the user has an access token and if its still valid, if it is the user is shown the uploaded files, otherwise the user is prompted to enter the access token
+
+EyeZa
+	a simple app that allows you to either upload a text file or use the camera to take a picture then it reads the text on the picture and displays it to the user together with what text was on the said image
+
+Dead man's drop
+	an app that counts to a specific time and date. if it reaches that date it does a specified action e.g send an email or message to a specified contact. Any user can use this service for free but free users only get like 3 drops after that they have to pay a monthly fee.
+
+V3n0m anonymous chat
+	a simple messaging app that is used to communicate anonymously over the internet. it doesnt use names and picturers are optional but not recommended. it has tools for chatting and keeping an address book. also you start a new chat by entering a user's chatid. also its in such a way that you'll be informed if a user blocks you but pro users are exempted from this. it gives everyone a free 14 day trial after which they have to pay a monthly fee to use
+
+Dropnote
+	a simple app with a textarea and inputs for an optional name and designation and a select for the option. when a user enters something their info is saved and an email sent to the dropnote owner informing them of a new note. all dropnotes are only visible to the person who added the note and all users once they've entered their note will be saved in localstorage and will only be able to edit their entry rather than add a new one.
+
+Hyperion
+	Organiseme rebirth but scaled to work in a php/mysql environment
