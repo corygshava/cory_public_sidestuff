@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chartguy</title>
+
+    <link rel="stylesheet" href="css/chartmaker.css">
+    <link rel="stylesheet" href="css/docu.css">
+
+    <script src="js/SuperScript.js"></script>
+    <script src="js/chartmaker.js"></script>
+</head>
+<body>
+    <div class="content">
+        <h2></h2>
+        <div class="chartHolder"></div>
+    </div>
+
+    <script>
+        let thedata = [];
+        let chartHolder = document.querySelector('.chartHolder');
+
+        function populate_array(array,items,min,max){
+            min = min || 0;
+            max = max || 100;
+            for(let x = 0;x<items;x++){
+                array.push(getRandom(min,max).toFixed(2));
+            }
+
+            return array;
+        }
+
+        thedata = populate_array(thedata,15,getRandom(-10,10),getRandom(20,50));
+
+        chartHolder.innerHTML = makebarchart(thedata, 'random graph');
+    </script>
+</body>
+</html>

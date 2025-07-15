@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chart Tool Documentation</title>
+  <link rel="stylesheet" href="css/docu.css">
+</head>
+<body>
+
+  <header>
+    <h1>📊 Chart Tool Documentation</h1>
+    <p>Create beautiful bar, line, and scatter charts with simple configs.</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>1. Bar Chart</h2>
+      <p>The bar chart visualizes data with rectangular bars.</p>
+      <pre><code>
+chart.create('bar', {
+  labels: ['Jan', 'Feb', 'Mar'],
+  values: [10, 20, 15],
+  color: '#2c7be5'
+});
+      </code></pre>
+      <div class="preview">[Bar chart preview]</div>
+    </section>
+
+    <section>
+      <h2>2. Line Chart</h2>
+      <p>The line chart connects data points with a continuous line.</p>
+      <pre><code>
+chart.create('line', {
+  labels: ['Q1', 'Q2', 'Q3'],
+  values: [5, 15, 25],
+  color: '#47c363'
+});
+      </code></pre>
+      <div class="preview">[Line chart preview]</div>
+    </section>
+
+    <section>
+      <h2>3. Scatter Chart</h2>
+      <p>The scatter chart displays data as a collection of points.</p>
+      <p>still in beta and is goind to </p>
+      <pre><code>
+        create chart = new chart({
+            type: 'bar',
+            data: {
+                [23,234,233],
+                [34,22,34]
+            }
+        })
+      </code></pre>
+      <div class="preview">[Scatter chart preview]</div>
+    </section>
+  </main>
+
+</body>
+</html>

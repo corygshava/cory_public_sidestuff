@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChartForge - Documentation</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"> -->
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #a5b4fc;
+            --primary-dark: #4338ca;
+            --secondary: #f1f5f9;
+            --accent: #06d6a0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --text-muted: #94a3b8;
+            --background: #ffffff;
+            --surface: #f8fafc;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 8px;
+            --max-width: 1200px;
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-mono: "SF Mono", Monaco, Inconsolata, "Roboto Mono", "Droid Sans Mono", Consolas, monospace;
+            --gradient: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+            background-image: radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+                              radial-gradient(circle at 80% 20%, rgba(6, 214, 160, 0.05) 0%, transparent 50%),
+                              radial-gradient(circle at 40% 40%, rgba(165, 180, 252, 0.05) 0%, transparent 50%);
+        }
+
+        header {
+            background: var(--background);
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .header-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            max-width: var(--max-width);
+            margin: 2rem auto;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 90px;
+            height: fit-content;
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            overflow: hidden;
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .sidebar-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .sidebar-nav a::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 4px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            transform: translateX(2px);
+        }
+
+        .sidebar-nav a:hover::before {
+            background: var(--primary);
+            width: 6px;
+            height: 6px;
+            left: 0.25rem;
+        }
+
+        .sidebar-nav a.active {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .sidebar-nav a.active::before {
+            background: var(--primary);
+            width: 6px;
+            height: 6px;
+            left: 0.25rem;
+        }
+
+        .content {
+            background: var(--background);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+            color: var(--text);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-top: 3rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            color: var(--primary-dark);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .intro {
+            font-size: 1.125rem;
+            color: var(--text);
+            margin-bottom: 2rem;
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card:hover::before {
+            transform: translateX(0);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+            color: white;
+            box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .highlight {
+            background-color: rgba(99, 102, 241, 0.1);
+            padding: 0.125rem 0.25rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        pre::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        code {
+            font-family: var(--font-mono);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #334155;
+        }
+
+        .code-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s ease;
+            padding: 0.25rem;
+            border-radius: 4px;
+        }
+
+        .copy-btn:hover {
+            color: var(--accent);
+            background-color: rgba(6, 214, 160, 0.1);
+        }
+
+        .copy-btn.copied {
+            color: var(--accent);
+        }
+
+        .params-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .params-table th, .params-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .params-table th {
+            background-color: var(--secondary);
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .params-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .params-table tr:hover {
+            background-color: rgba(99, 102, 241, 0.05);
+            transition: background-color 0.2s ease;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tag-required {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        .tag-optional {
+            background-color: rgba(100, 116, 139, 0.1);
+            color: var(--text-light);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        .example-container {
+            margin-bottom: 2rem;
+        }
+
+        .example-tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .example-tab {
+            padding: 0.5rem 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .example-tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .example-content {
+            display: none;
+        }
+
+        .example-content.active {
+            display: block;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.125rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            margin-left: 0.5rem;
+        }
+
+        .badge-new {
+            background-color: rgba(6, 214, 160, 0.1);
+            color: var(--accent);
+        }
+
+        .badge-beta {
+            background-color: rgba(251, 191, 36, 0.1);
+            color: #d97706;
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            background-color: var(--surface);
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quick-link {
+            display: block;
+            padding: 1rem;
+            background: var(--surface);
+            border-radius: var(--radius);
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.2s ease;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .quick-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .quick-link-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Syntax highlighting enhancements */
+        .token.comment {
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        .token.string {
+            color: var(--accent);
+        }
+
+        .token.keyword {
+            color: var(--primary-light);
+        }
+
+        .token.function {
+            color: #fbbf24;
+        }
+
+        .token.number {
+            color: #f472b6;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading animation for code blocks */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        pre {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">C</div>
+                ChartForge
+            </div>
+            <nav style="display: flex; gap: 1rem;">
+                <a href="#getting-started" style="color: var(--text-light); text-decoration: none;">Docs</a>
+                <a href="#examples" style="color: var(--text-light); text-decoration: none;">Examples</a>
+                <a href="https://github.com/chartforge" style="color: var(--text-light); text-decoration: none;">GitHub</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Search docs..." id="searchInput">
+            </div>
+            <div class="sidebar-title">Documentation</div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#getting-started" class="active">Getting Started</a></li>
+                    <li><a href="#installation">Installation</a></li>
+                    <li><a href="#configuration">Configuration</a></li>
+                    <li><a href="#charts">Chart Types</a></li>
+                    <li><a href="#bar-chart">Bar Chart</a></li>
+                    <li><a href="#line-chart">Line Chart</a></li>
+                    <li><a href="#scatter-chart">Scatter Chart</a></li>
+                    <li><a href="#styling">Styling</a></li>
+                    <li><a href="#events">Events</a></li>
+                    <li><a href="#api">API Reference</a></li>
+                    <li><a href="#examples">Examples</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <h1>ChartForge Documentation</h1>
+            
+            <p class="intro">
+                ChartForge is a lightweight, flexible JavaScript library for creating beautiful charts. 
+                With support for bar, line, and scatter charts, it's perfect for any data visualization needs.
+            </p>
+
+            <div class="quick-links">
+                <a href="#getting-started" class="quick-link">
+                    <span class="quick-link-icon">🚀</span>
+                    <div>Getting Started</div>
+                </a>
+                <a href="#examples" class="quick-link">
+                    <span class="quick-link-icon">📊</span>
+                    <div>Live Examples</div>
+                </a>
+                <a href="#api" class="quick-link">
+                    <span class="quick-link-icon">📚</span>
+                    <div>API Reference</div>
+                </a>
+            </div>
+
+            <section id="getting-started">
+                <h2>Getting Started</h2>
+                <p>
+                    ChartForge is designed to be easy to use with minimal setup. This guide will help you get started 
+                    in just a few minutes.
+                </p>
+
+                <h3>Installation</h3>
+                <p>You can install ChartForge via npm or include it directly from a CDN.</p>
+
+                <div class="example-container">
+                    <div class="example-tabs">
+                        <button class="example-tab active" data-tab="npm">npm</button>
+                        <button class="example-tab" data-tab="cdn">CDN</button>
+                        <button class="example-tab" data-tab="yarn">yarn</button>
+                    </div>
+                    <div class="example-content active" data-content="npm">
+                        <div class="code-header">
+                            <span class="code-title">Terminal</span>
+                            <button class="copy-btn" data-clipboard-text="npm install chartforge">Copy</button>
+                        </div>
+                        <pre><code>npm install chartforge</code></pre>
+                    </div>
+                    <div class="example-content" data-content="cdn">
+                        <div class="code-header">
+                            <span class="code-title">HTML</span>
+                            <button class="copy-btn" data-clipboard-text='&lt;script src="https://cdn.jsdelivr.net/npm/chartforge@1.0.0/dist/chartforge.min.js"&gt;&lt;/script&gt;'>Copy</button>
+                        </div>
+                        <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/chartforge@1.0.0/dist/chartforge.min.js"&gt;&lt;/script&gt;</code></pre>
+                    </div>
+                    <div class="example-content" data-content="yarn">
+                        <div class="code-header">
+                            <span class="code-title">Terminal</span>
+                            <button class="copy-btn" data-clipboard-text="yarn add chartforge">Copy</button>
+                        </div>
+                        <pre><code>yarn add chartforge</code></pre>
+                    </div>
+                </div>
+
+                <h3>Basic Usage</h3>
+                <p>Once installed, you can create your first chart with just a few lines of code:</p>
+                
+                <div class="code-header">
+                    <span class="code-title">JavaScript</span>
+                    <button class="copy-btn" data-clipboard-text='import ChartForge from "chartforge";
+
+const chart = new ChartForge("#chart-container", {
+    type: "bar",
+    data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+        values: [12, 19, 3, 5, 2]
+    },
+    options: {
+        responsive: true,
+        title: "Monthly Sales"
+    }
+});'>Copy</button>
+                </div>
+                <pre><code>import ChartForge from "chartforge";
+
+const chart = new ChartForge("#chart-container", {
+    type: "bar",
+    data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+        values: [12, 19, 3, 5, 2]
+    },
+    options: {
+        responsive: true,
+        title: "Monthly Sales"
+    }
+});</code></pre>
+            </section>
+
+            <section id="configuration">
+                <h2>Configuration</h2>
+                <p>
+                    ChartForge uses a simple configuration object to customize your charts. Below are the common options 
+                    available for all chart types.
+                </p>
+
+                <table class="params-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>responsive</td>
+                            <td>Boolean</td>
+                            <td>true</td>
+                            <td>Whether the chart should resize when its container resizes</td>
+                        </tr>
+                        <tr>
+                            <td>width</td>
+                            <td>Number</td>
+                            <td>null</td>
+                            <td>Explicit width for the chart (in pixels)</td>
+                        </tr>
+                        <tr>
+                            <td>height</td>
+                            <td>Number</td>
+                            <td>null</td>
+                            <td>Explicit height for the chart (in pixels)</td>
+                        </tr>
+                        <tr>
+                            <td>title</td>
+                            <td>String</td>
+                            <td>null</td>
+                            <td>Chart title displayed above the chart</td>
+                        </tr>
+                        <tr>
+                            <td>colors</td>
+                            <td>Array</td>
+                            <td>Pre-defined palette</td>
+                            <td>Array of color strings for the chart elements</td>
+                        </tr>
+                        <tr>
+                            <td>animation</td>
+                            <td>Boolean</td>
+                            <td>true</td>
+                            <td>Whether to animate the chart on load</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="charts">
+                <h2>Chart Types</h2>
+                <p>
+                    ChartForge currently supports three chart types, each designed for specific use cases.
+                </p>
+
+                <div class="cards-container">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">📊</div>
+                            <div class="card-title">Bar Chart</div>
+                        </div>
+                        <p>
+                            Bar charts are perfect for comparing discrete categories of data. Each bar represents 
+                            a category, and the height represents the value.
+                        </p>
+                        <a href="#bar-chart" style="color: var(--primary); text-decoration: none; font-weight: 600;">
+                            Learn more →
+                        </a>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">📈</div>
+                            <div class="card-title">Line Chart</div>
+                        </div>
+                        <p>
+                            Line charts are ideal for showing trends over time or continuous data. They connect 
+                            data points with lines to emphasize the progression.
+                        </p>
+                        <a href="#line-chart" style="color: var(--primary); text-decoration: none; font-weight: 600;">
+                            Learn more →
+                        </a>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">⚬</div>
+                            <div class="card-title">Scatter Chart</div>
+                        </div>
+                        <p>
+                            Scatter charts show the relationship between two variables. Each point represents 
+                            an observation with x and y coordinates.
+                        </p>
+                        <a href="#scatter-chart" style="color: var(--primary); text-decoration: none; font-weight: 600;">
+                            Learn more →
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="bar-chart">
+                <h2>Bar Chart</h2>
+                <p>
+                    Bar charts are excellent for displaying categorical data. They can be oriented vertically or horizontally.
+                </p>
+
+                <h3>Basic Example</h3>
+                <div class="code-header">
+                    <span class="code-title">JavaScript</span>
+                    <button class="copy-btn" data-clipboard-text='const barChart = new ChartForge("#bar-chart", {
+    type: "bar",
+    data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        values: [12, 19, 3, 5, 2, 3]
+    },
+    options: {
+        responsive: true,
+        title: "Favorite Colors Survey",
+        colors: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"]
+    }
+});'>Copy</button>
+                </div>
+                <pre><code>const barChart = new ChartForge("#bar-chart", {
+    type: "bar",
+    data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        values: [12, 19, 3, 5, 2, 3]
+    },
+    options: {
+        responsive: true,
+        title: "Favorite Colors Survey",
+        colors: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"]
+    }
+});</code></pre>
+
+                <h3>Bar Chart Specific Options</h3>
+                <table class="params-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>orientation</td>
+                            <td>String</td>
+                            <td>"vertical"</td>
+                            <td>Bar orientation: "vertical" or "horizontal"</td>
+                        </tr>
+                        <tr>
+                            <td>barThickness</td>
+                            <td>Number</td>
+                            <td>auto</td>
+                            <td>Thickness of bars in pixels</td>
+                        </tr>
+                        <tr>
+                            <td>barPercentage</td>
+                            <td>Number</td>
+                            <td>0.8</td>
+                            <td>Percentage of available width to use for bars (0-1)</td>
+                        </tr>
+                        <tr>
+                            <td>categoryPercentage</td>
+                            <td>Number</td>
+                            <td>0.8</td>
+                            <td>Percentage of available width to use for each category (0-1)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="line-chart">
+                <h2>Line Chart</h2>
+                <p>
+                    Line charts are perfect for showing trends and changes over time or continuous data.
+                </p>
+
+                <h3>Basic Example</h3>
+                <div class="code-header">
+                    <span class="code-title">JavaScript</span>
+                    <button class="copy-btn" data-clipboard-text='const lineChart = new ChartForge("#line-chart", {
+    type: "line",
+    data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+        values: [65, 59, 80, 81, 56, 55]
+    },
+    options: {
+        responsive: true,
+        title: "Monthly Revenue",
+        tension: 0.4,
+        fill: false
+    }
+});'>Copy</button>
+                </div>
+                <pre><code>const lineChart = new ChartForge("#line-chart", {
+    type: "line",
+    data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+        values: [65, 59, 80, 81, 56, 55]
+    },
+    options: {
+        responsive: true,
+        title: "Monthly Revenue",
+        tension: 0.4,
+        fill: false
+    }
+});</code></pre>
+
+                <h3>Line Chart Specific Options</h3>
+                <table class="params-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>tension</td>
+                            <td>Number</td>
+                            <td>0</td>
+                            <td>Bezier curve tension of the line (0 for no curves)</td>
+                        </tr>
+                        <tr>
+                            <td>fill</td>
+                            <td>Boolean</td>
+                            <td>false</td>
+                            <td>Whether to fill the area under the line</td>
+                        </tr>
+                        <tr>
+                            <td>pointRadius</td>
+                            <td>Number</td>
+                            <td>3</td>
+                            <td>Radius of the data points in pixels</td>
+                        </tr>
+                        <tr>
+                            <td>pointHoverRadius</td>
+                            <td>Number</td>
+                            <td>5</td>
+                            <td>Radius of the data points when hovered (in pixels)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="scatter-chart">
+                <h2>Scatter Chart</h2>
+                <p>
+                    Scatter charts display the relationship between two variables using dots at the intersection 
+                    of x and y values.
+                </p>
+
+                <h3>Basic Example</h3>
+                <div class="code-header">
+                    <span class="code-title">JavaScript</span>
+                    <button class="copy-btn" data-clipboard-text='const scatterChart = new ChartForge("#scatter-chart", {
+    type: "scatter",
+    data: {
+        datasets: [{
+            label: "Height vs Weight",
+            data: [
+                { x: 65, y: 75 },
+                { x: 59, y: 80 },
+                { x: 80, y: 56 },
+                { x: 81, y: 55 },
+                { x: 56, y: 40 },
+                { x: 55, y: 35 }
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        title: "Height vs Weight Correlation",
+        pointRadius: 5
+    }
+});'>Copy</button>
+                </div>
+                <pre><code>const scatterChart = new ChartForge("#scatter-chart", {
+    type: "scatter",
+    data: {
+        datasets: [{
+            label: "Height vs Weight",
+            data: [
+                { x: 65, y: 75 },
+                { x: 59, y: 80 },
+                { x: 80, y: 56 },
+                { x: 81, y: 55 },
+                { x: 56, y: 40 },
+                { x: 55, y: 35 }
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        title: "Height vs Weight Correlation",
+        pointRadius: 5
+    }
+});</code></pre>
+
+                <h3>Scatter Chart Specific Options</h3>
+                <table class="params-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Type</th>
+                            <th>Default</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>pointRadius</td>
+                            <td>Number</td>
+                            <td>3</td>
+                            <td>Radius of the points in pixels</td>
+                        </tr>
+                        <tr>
+                            <td>pointHoverRadius</td>
+                            <td>Number</td>
+                            <td>5</td>
+                            <td>Radius of the points when hovered (in pixels)</td>
+                        </tr>
+                        <tr>
+                            <td>showLine</td>
+                            <td>Boolean</td>
+                            <td>false</td>
+                            <td>Whether to show a line connecting the points</td>
+                        </tr>
+                        <tr>
+                            <td>tension</td>
+                            <td>Number</td>
+                            <td>0</td>
+                            <td>Bezier curve tension of the line (if showLine is true)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="styling">
+                <h2>Styling</h2>
+                <p>
+                    ChartForge provides flexible styling options to match your design requirements.
+                </p>
+
+                <h3>Custom Colors</h3>
+                <p>You can specify custom colors for your charts:</p>
+                <div class="code-header">
+                    <span class="code-title">JavaScript</span>
+                    <button class="copy-btn" data-clipboard-text='const chart = new ChartForge("#chart", {
+    type: "bar",
+    data: {
+        labels: ["A", "B", "C"],
+        values: [10, 20, 15]
+    },
+    options: {
+        colors: ["#FF6384", "#36A2EB", "#FFCE56"]
+    }
+});'>Copy</button>
+                </div>
+                <pre><code>const chart = new ChartForge("#chart", {
+    type: "bar",
+    data: {
+        labels: ["A", "B", "C"],
+        values: [10, 20, 15]
+    },
+    options: {
+        colors: ["#FF6384", "#36A2EB", "#FFCE56"]
+    }
+});</code></pre>
+
+                <h3>Global Styles</h3>
+                <p>You can also set global styles that apply to all charts:</p>
+                <div class="code-header">
+                    <span class="code-title">JavaScript</span>
+                    <button class="copy-btn" data-clipboard-text='ChartForge.defaults.font.family = "Arial";
+ChartForge.defaults.font.size = 14;
+ChartForge.defaults.color = "#333";'>Copy</button>
+                </div>
+                <pre><code>ChartForge.defaults.font.family = "Arial";
+ChartForge.defaults.font.size = 14;
+ChartForge.defaults.color = "#333";</code></pre>
+            </section>
+
+            <section id="events">
+                <h2>Events</h2>
+                <p>
+                    ChartForge emits events that you can listen to for interactive functionality.
+                </p>
+
+                <table class="params-table">
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Description</th>
+                            <th>Parameters</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>click</td>
+                            <td>Fired when clicking on the chart</td>
+                            <td>event, elements</td>
+                        </tr>
+                        <tr>
+                            <td>hover</td>
+                            <td>Fired when hovering over chart elements</td>
+                            <td>event, elements</td>
+                        </tr>
+                        <tr>
+                            <td>resize</td>
+                            <td>Fired when the chart is resized</td>
+                            <td>newSize</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Example: Handling Click Events</h3>
+                <div class="code-header">
+                    <span class="code-title">JavaScript</span>
+                    <button class="copy-btn" data-clipboard-text='const chart = new ChartForge("#chart", {
+    type: "bar",
+    data: {
+        labels: ["A", "B", "C"],
+        values: [10, 20, 15]
+    }
+});
+
+chart.on("click", (event, elements) => {
+    if (elements.length > 0) {
+        const index = elements[0].index;
+        const value = chart.data.values[index];
+        alert(`Clicked on value: ${value}`);
+    }
+});'>Copy</button>
+                </div>
+                <pre><code>const chart = new ChartForge("#chart", {
+    type: "bar",
+    data: {
+        labels: ["A", "B", "C"],
+        values: [10, 20, 15]
+    }
+});
+
+chart.on("click", (event, elements) => {
+    if (elements.length > 0) {
+        const index = elements[0].index;
+        const value = chart.data.values[index];
+        alert(`Clicked on value: ${value}`);
+    }
+});</code></pre>
+            </section>
+
+            <section id="api">
+                <h2>API Reference</h2>
+                <p>
+                    The ChartForge API provides methods for programmatically interacting with charts.
+                </p>
+
+                <h3>Chart Instance Methods</h3>
+                <table class="params-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                            <th>Parameters</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>update()</td>
+                            <td>Updates the chart with new data or options</td>
+                            <td>config (optional)</td>
+                        </tr>
+                        <tr>
+                            <td>resize()</td>
+                            <td>Manually triggers a resize of the chart</td>
+                            <td>none</td>
+                        </tr>
+                        <tr>
+                            <td>destroy()</td>
+                            <td>Destroys the chart instance and cleans up resources</td>
+                            <td>none</td>
+                        </tr>
+                        <tr>
+                            <td>on(event, handler)</td>
+                            <td>Adds an event listener to the chart</td>
+                            <td>eventName, callback</td>
+                        </tr>
+                        <tr>
+                            <td>off(event, handler)</td>
+                            <td>Removes an event listener from the chart</td>
+                            <td>eventName, callback</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Example: Updating Chart Data</h3>
+                <div class="code-header">
+                    <span class="code-title">JavaScript</span>
+                    <button class="copy-btn" data-clipboard-text='const chart = new ChartForge("#chart", {
+    type: "line",
+    data: {
+        labels: ["Jan", "Feb", "Mar"],
+        values: [10, 20, 15]
+    }
+});
+
+// Update with new data
+chart.update({
+    data: {
+        labels: ["Jan", "Feb", "Mar", "Apr"],
+        values: [12, 19, 3, 5]
+    }
+});'>Copy</button>
+                </div>
+                <pre><code>const chart = new ChartForge("#chart", {
+    type: "line",
+    data: {
+        labels: ["Jan", "Feb", "Mar"],
+        values: [10, 20, 15]
+    }
+});
+
+// Update with new data
+chart.update({
+    data: {
+        labels: ["Jan", "Feb", "Mar", "Apr"],
+        values: [12, 19, 3, 5]
+    }
+});</code></pre>
+            </section>
+
+            <section id="examples">
+                <h2>Examples</h2>
+                <p>
+                    Here are some common chart configurations to help you get started quickly.
+                </p>
+
+                <h3>Multi-dataset Bar Chart</h3>
+                <div class="code-header">
+                    <span class="code-title">JavaScript</span>
+                    <button class="copy-btn" data-clipboard-text='const multiBarChart = new ChartForge("#multi-bar-chart", {
+    type: "bar",
+    data: {
+        labels: ["2020", "2021", "2022", "2023"],
+        datasets: [
+            {
+                label: "Product A",
+                values: [12, 19, 3, 5]
+            },
+            {
+                label: "Product B",
+                values: [5, 10, 16, 22]
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        title: "Sales Comparison"
+    }
+});'>Copy</button>
+                </div>
+                <pre><code>const multiBarChart = new ChartForge("#multi-bar-chart", {
+    type: "bar",
+    data: {
+        labels: ["2020", "2021", "2022", "2023"],
+        datasets: [
+            {
+                label: "Product A",
+                values: [12, 19, 3, 5]
+            },
+            {
+                label: "Product B",
+                values: [5, 10, 16, 22]
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        title: "Sales Comparison"
+    }
+});</code></pre>
+
+                <h3>Stacked Area Chart</h3>
+                <div class="code-header">
+                    <span class="code-title">JavaScript</span>
+                    <button class="copy-btn" data-clipboard-text='const areaChart = new ChartForge("#area-chart", {
+    type: "line",
+    data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+        datasets: [
+            {
+                label: "Desktop",
+                values: [65, 59, 80, 81, 56]
+            },
+            {
+                label: "Mobile",
+                values: [28, 48, 40, 19, 86]
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        title: "Traffic Sources",
+        fill: true,
+        stacked: true
+    }
+});'>Copy</button>
+                </div>
+                <pre><code>const areaChart = new ChartForge("#area-chart", {
+    type: "line",
+    data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+        datasets: [
+            {
+                label: "Desktop",
+                values: [65, 59, 80, 81, 56]
+            },
+            {
+                label: "Mobile",
+                values: [28, 48, 40, 19, 86]
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        title: "Traffic Sources",
+        fill: true,
+        stacked: true
+    }
+});</code></pre>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>
+            &copy; 2023 ChartForge. Open source under MIT License.
+        </p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+    <script>
+        // Initialize clipboard
+        const clipboard = new ClipboardJS('.copy-btn');
+        
+        clipboard.on('success', function(e) {
+            const btn = e.trigger;
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+            
+            e.clearSelection();
+        });
+
+        // Handle example tabs
+        const tabs = document.querySelectorAll('.example-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and content
+                document.querySelectorAll('.example-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.example-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                document.querySelector(`.example-content[data-content="${tabName}"]`).classList.add('active');
+            });
+        });
+
+        // Handle sidebar navigation
+        const navLinks = document.querySelectorAll('.sidebar-nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const sections = document.querySelectorAll('section');
+                
+                sections.forEach(section => {
+                    const text = section.textContent.toLowerCase();
+                    const link = document.querySelector(`.sidebar-nav a[href="#${section.id}"]`);
+                    
+                    if (link) {
+                        if (text.includes(query)) {
+                            link.style.display = 'block';
+                            link.style.opacity = '1';
+                        } else {
+                            link.style.opacity = '0.5';
+                        }
+                    }
+                });
+            });
+        }
+
+        // Add intersection observer for active nav highlighting
+        const observerOptions = {
+            rootMargin: '-20% 0px -70% 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const navLink = document.querySelector(`.sidebar-nav a[href="#${id}"]`);
+                
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    if (navLink) {
+                        navLink.classList.add('active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section[id]').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
