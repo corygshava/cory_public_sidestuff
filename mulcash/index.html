@@ -3,41 +3,81 @@
 <head>
     <title>Compound Earnings Calculator</title>
     <link rel="stylesheet" href="../common stuff/css/w3.css">
+    <link rel="stylesheet" href="styles.css">
     <style>
+        :root{
+            --roundness: 16px;
+            --accent: dodgerblue;
+            --sec: palegreen;
+        }
+        *{
+            box-sizing: border-box;
+            transition: 0.3s ease-out;
+        }
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
+            margin: 0;
         }
         .container {
             max-width: 600px;
+            width: 96vw;
             margin: auto;
+            padding: 24px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
         }
         .result {
-            margin-top: 20px;
+            background-color: var(--sec);
+            display: block;
+            padding: 24px;
+            border-radius: var(--roundness);
         }
         .huge-text {
             font-size: 24px;
             font-weight: bold;
         }
+
+        /* forms and inputs */
+        .maform{
+            padding: 32px 16px;
+            border-radius: var(--roundness);
+        }
+        .maform input{
+            padding: 12px;
+            border-radius: var(--roundness);
+            margin: 12px 0;
+        }
+        .maform input:focus{
+            outline: none;
+            box-shadow: 0 0 8px var(--accent);
+        }
+        .maform button{
+            border-radius: var(--roundness);
+            width: 100%;
+        }
     </style>
 </head>
 <body>
-    <div class="w3-container w3-light-grey container">
-        <h2 class="w3-center">Compound Earnings Calculator</h2>
-        <div class="w3-card-4 w3-padding">
-            <label for="startAmount">Starting Amount:</label>
-            <input class="w3-input" type="number" id="startAmount" value="1" step="any">
-            
-            <label for="multiplier">Multiplier:</label>
-            <input class="w3-input" type="number" id="multiplier" value="2" step="any">
-            
-            <label for="daysCount">Number of Days:</label>
-            <input class="w3-input" type="number" id="daysCount" value="10">
-            
-            <button class="w3-button w3-blue w3-margin-top" onclick="calculateEarnings()">Calculate</button>
-        </div>
-        <div class="w3-card-4 w3-padding result w3-light-green">
-            <div id="result" class="huge-text w3-center"></div>
+    <div class="content">
+        <div class="w3-container container">
+            <h2 class="w3-center">Compound Earnings Calculator</h2>
+            <div class="w3-card-4 maform">
+                <label for="startAmount">Starting Amount:</label>
+                <input class="w3-input" type="number" id="startAmount" value="1" step="any">
+                
+                <label for="multiplier">Multiplier:</label>
+                <input class="w3-input" type="number" id="multiplier" value="2" step="any">
+                
+                <label for="daysCount">Number of Days:</label>
+                <input class="w3-input" type="number" id="daysCount" value="10">
+                
+                <button class="w3-button w3-blue w3-margin-top" onclick="calculateEarnings()">Calculate</button>
+            </div>
+            <div class="w3-card-4 result showup">
+                <div id="result" class="huge-text w3-center"></div>
+            </div>
         </div>
     </div>
 
