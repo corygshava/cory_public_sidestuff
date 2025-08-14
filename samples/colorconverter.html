@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Color Picker App</title>
+  <style>
+    body {
+      background: #f3f4f6;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+    input[type="color"] {
+      width: 120px;
+      height: 60px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      cursor: pointer;
+    }
+    .info-block {
+      background: #f9fafb;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid #e0e0e0;
+      text-align: left;
+    }
+    .line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    .line p {
+      margin: 0;
+    }
+    .copy-btn {
+      font-size: 12px;
+      color: #007bff;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      text-decoration: underline;
+    }
+    .export-btn {
+      margin-top: 24px;
+      padding: 10px 20px;
+      font-size: 14px;
+      color: white;
+      background: #28a745;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .export-btn:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Color Picker</h1>
+    
+    <input type="color" id="colorPicker"/>
+
+    <div id="result" class="info-block">
+      <div class="line">
+        <p><strong>RGB:</strong> <span id="rgb"></span></p>
+        <button class="copy-btn" onclick="copyText('rgb')">Copy Color</button>
+      </div>
+      <div class="line">
+        <p><strong>RGBA:</strong> <span id="rgba"></span></p>
+        <button class="copy-btn" onclick="copyText('rgba')">Copy Color</button>
+      </div>
+      <div class="line">
+        <p><strong>HEX:</strong> <span id="hex"></span></p>
+        <button class="copy-btn" onclick="copyText('hex')">Copy Color</button>
+      </div>
+      <div class="line">
+        <p><strong>HEX + Opacity:</strong> <span id="hexOpacity"></span></p>
+        <button class="copy-btn" onclick="copyText('hexOpacity')">Copy Color</button>
+      </div>
+      <div class="line">
+        <p><strong>CMYK:</strong> <span id="cmyk"></span></p>
+        <button class="copy-btn" onclick="copyText('cmyk')">Copy Color</button>
+      </div>
+    </div>
+
+    <button onclick="exportAsImage()" class="export-btn">Export as Image</button>
+  </div>
+
+  <script>
+    const colorPicker = document.getElementById('colorPicker');
+    const rgbOut = document.getElementById('rgb');
+    const rgbaOut = document.getElementById('rgba');
+    const hexOut = document.getElementById('hex');
+    const hexOpacityOut = document.getElementById('hexOpacity');
+    const cmykOut = document.getElementById('cmyk');
+
+    function hexToRgb(hex) {
+      const bigint = parseInt(hex.slice(1), 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      return { r, g, b };
+    }
+
+    function rgbToCmyk(r, g, b) {
+      const c = 1 - (r / 255);
+      const m = 1 - (g / 255);
+      const y = 1 - (b / 255);
+      const k = Math.min(c, m, y);
+      if (k === 1) return { c: 0, m: 0, y: 0, k: 1 };
+      return {
+        c: ((c - k) / (1 - k)).toFixed(2),
+        m: ((m - k) / (1 - k)).toFixed(2),
+        y: ((y - k) / (1 - k)).toFixed(2),
+        k: k.toFixed(2)
+      };
+    }
+
+    function updateValues(hex) {
+      const { r, g, b } = hexToRgb(hex);
+      const rgba = `rgba(${r}, ${g}, ${b}, 0.8)`;
+      const hexOpacity = hex + "CC";
+      const cmyk = rgbToCmyk(r, g, b);
+
+      rgbOut.textContent = `rgb(${r}, ${g}, ${b})`;
+      rgbaOut.textContent = rgba;
+      hexOut.textContent = hex.toUpperCase();
+      hexOpacityOut.textContent = hexOpacity.toUpperCase();
+      cmykOut.textContent = `cmyk(${cmyk.c}, ${cmyk.m}, ${cmyk.y}, ${cmyk.k})`;
+    }
+
+    function copyText(id) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text);
+    }
+
+    function exportAsImage() {
+      const hex = colorPicker.value;
+      const canvas = document.createElement('canvas');
+      canvas.width = 100;
+      canvas.height = 100;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = hex;
+      ctx.fillRect(0, 0, 100, 100);
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `color-${hex.slice(1)}.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    colorPicker.addEventListener('input', e => updateValues(e.target.value));
+    window.onload = () => updateValues(colorPicker.value);
+  </script>
+
+</body>
+</html>

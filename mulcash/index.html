@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compound Earnings Calculator</title>
+    <link rel="stylesheet" href="../../common/css/w3.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .huge-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="w3-container w3-light-grey container">
+        <h2 class="w3-center">Compound Earnings Calculator</h2>
+        <div class="w3-card-4 w3-padding">
+            <label for="startAmount">Starting Amount:</label>
+            <input class="w3-input" type="number" id="startAmount" value="1" step="any">
+            
+            <label for="multiplier">Multiplier:</label>
+            <input class="w3-input" type="number" id="multiplier" value="2" step="any">
+            
+            <label for="daysCount">Number of Days:</label>
+            <input class="w3-input" type="number" id="daysCount" value="10">
+            
+            <button class="w3-button w3-blue w3-margin-top" onclick="calculateEarnings()">Calculate</button>
+        </div>
+        <div class="w3-card-4 w3-padding result w3-light-green">
+            <div id="result" class="huge-text w3-center"></div>
+        </div>
+    </div>
+
+    <script>
+        function calculateEarnings() {
+            let startAmount = parseFloat(document.getElementById('startAmount').value);
+            let multiplier = parseFloat(document.getElementById('multiplier').value);
+            let daysCount = parseInt(document.getElementById('daysCount').value);
+
+            let earnings = startAmount,total = 0;
+            for (let day = 1; day < daysCount; day++) {
+                earnings *= multiplier;
+                total += earnings;
+            }
+
+            let formattedEarnings = earnings.toLocaleString();
+            let earningsInWords = numberToWords(total);
+            
+            document.getElementById('result').innerHTML = `After ${daysCount} days and at a multiplier of ${multiplier} you will have <h1>${total.toLocaleString()}</h1> (${earningsInWords})`;
+        }
+
+        function numberToWords(num) {
+            const ones = ['','one','two','three','four','five','six','seven','eight','nine'];
+            const teens = ['','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+            const tens = ['','ten','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+            // const thousands = ['','thousand','million','billion','trillion'];
+            const thousands = generateNumberDegrees();
+
+            if (num === 0) return 'zero';
+
+            let word = '';
+
+            let i = 0;
+            while (num > 0) {
+                let tempNum = num % 1000;
+                if (tempNum !== 0) {
+                    let tempWord = '';
+                    if (tempNum % 100 < 20 && tempNum % 100 > 10) {
+                        tempWord = teens[tempNum % 10] + ' ';
+                    } else {
+                        tempWord = tens[Math.floor(tempNum % 100 / 10)] + ' ' + ones[tempNum % 10] + ' ';
+                    }
+                    word = tempWord + thousands[i] + ' ' + word;
+                }
+                num = Math.floor(num / 1000);
+                i++;
+            }
+
+            return word.trim();
+        }
+
+        function generateNumberDegrees() {
+		    const numberDegrees = [
+		    	'',
+		        "thousand",
+		        "million",
+		        "billion",
+		        "trillion",
+		        "quadrillion",
+		        "quintillion",
+		        "sextillion",
+		        "septillion",
+		        "octillion",
+		        "nonillion",
+		        "decillion",
+		        "undecillion",
+		        "duodecillion",
+		        "tredecillion",
+		        "quattuordecillion",
+		        "quindecillion",
+		        "sexdecillion",
+		        "septendecillion",
+		        "octodecillion",
+		        "novemdecillion",
+		        "vigintillion",
+		        "unvigintillion",
+		        "duovigintillion",
+		        "tresvigintillion",
+		        "quattuorvigintillion",
+		        "quinvigintillion",
+		        "sesvigintillion",
+		        "septemvigintillion",
+		        "octovigintillion",
+		        "novemvigintillion",
+		        "trigintillion",
+		        "untrigintillion",
+		        "duotrigintillion",
+		        "googol",
+		        "centillion"
+		    ];
+		    return numberDegrees;
+		}
+
+		const numberDegrees = generateNumberDegrees();
+		console.log(numberDegrees);
+
+    </script>
+</body>
+</html>
