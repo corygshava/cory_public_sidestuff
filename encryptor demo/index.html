@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Text encryptor</title>
+
+	<!-- change when migrated -->
+	<script src="../mylibraries/web/SuperScript.js"></script>
+	<script src="../mylibraries/web/toappend.js"></script>
+	<script src="super_encryptor.js"></script>
+
+	<style>
+		:root{
+			--themecolor: #33ffcc;
+			--seccolor: #fafdfd;
+			--roundness: 12px;
+			--thascale: 1.02;
+			--bordercolor: #e1f3f8;
+		}
+		*{
+			transition: 0.3s ease-out;
+			box-sizing: border-box;
+		}
+		body {
+			font-family: calibri,Arial, sans-serif;
+			margin: 0;
+			background-color: #f4f4f4;
+		}
+
+		.content {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			min-height: 100vh;
+			background-color: white;
+			padding: 20px;
+			border-radius: 8px;
+		}
+
+		.content .section{
+			min-width: 300px;
+			max-width: 700px;
+			width: 96%;
+			box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+			border-radius: var(--roundness);
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			padding: 20px 40px;
+			text-align: center;
+		}
+
+		.inputholder, .textguy {
+			margin-bottom: 20px;
+		}
+
+		.section input {
+			display: inline-block;
+			width: 100%;
+			padding: 8px 12px;
+			border: 1px solid #ccc;
+			border-radius: var(--roundness);
+		}
+		.section input:focus{
+			scale: var(--thascale);
+			box-shadow: 0 0 12px var(--themecolor);
+			border: 1px solid transparent;
+			outline: none;
+		}
+		.section button {
+			padding: 12px 16px;
+			background-color: var(--themecolor);
+			color: white;
+			border: none;
+			border-radius: var(--roundness);
+			cursor: pointer;
+			width: 100%;
+		}
+
+		.section button:hover {
+			scale: var(--thascale);
+			/* color: #111; */
+			box-shadow: 0 0 12px var(--themecolor);
+		}
+
+		.section h2 {
+			margin: 0;
+			padding: 12px 20px;
+			border-bottom: 2px solid var(--bordercolor);
+			border-radius: var(--roundness);
+			/* font-size: 24px; */
+		}
+
+		.textguy div {
+			margin-top: 10px;
+		}
+
+		#yourtext, #encrypted {
+			padding: 20px 12px;
+			border: 1px solid var(--bordercolor);
+			border-radius: var(--roundness);
+			background-color: var(--seccolor);
+			color: rgb(100, 100, 100);
+		}
+	</style>
+</head>
+<body>
+
+	<div class="content">
+		<!-- Input section -->
+		<div class="section inputholder">
+			<h2>Text Encryptor</h2>
+			<input type="text" id="inputText" placeholder="Enter some text">
+			<button id="processInputButton">Process Input</button>
+		</div>
+
+		<!-- Text display and actions -->
+		<div class="section textguy" style="display: none;">
+			<h2>Your Text</h2>
+			<div id="yourtext">
+				<span>Dummy text goes here</span>
+			</div>
+			<div>
+				<button id="encryptButton">Encrypt Text</button>
+			</div>
+			<div class="options">
+				<button class="backbtn" onclick="handleTabs(0)">enter new text</button>
+			</div>
+		</div>
+		<div class="section textguy" style="display: none;">
+			<h2>Encrypted text</h2>
+			<div id="encrypted">
+				<span>Encrypted text will appear here</span>
+			</div>
+			<button id="copyButton">Copy text</button>
+			<div class="options">
+				<button class="backbtn" onclick="handleTabs(0)">enter new text</button>
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+		var ui_processBtn = document.getElementById('processInputButton');
+		var ui_myinput = document.getElementById('inputText');
+		var ui_textshow = document.getElementById('yourtext');
+		var ui_sections = document.querySelectorAll('.section');
+		var ui_encbtn = document.getElementById('encryptButton');
+		var ui_enctext = document.getElementById('encrypted');
+		var ui_copybtn = document.getElementById('copyButton');
+
+		var _thetext = "";
+		var _curtab = 0;
+
+		// functions
+		function handleTabs(n) {
+			// console.log(n,ui_sections);
+			n = n % ui_sections.length;
+			_curtab = n;
+
+			let thesection = ui_sections[n];
+
+			ui_sections.forEach(el => {
+				el.style.display = "none";
+			});
+
+			let keyframes = [
+				{opacity: 0,translate: '0 20px'},
+				{opacity: 1,translate: '0 0'}
+			];
+
+			let timing = {
+				duration: 300,
+				easing: "ease-out",
+				fill:"forwards"
+			}
+
+			thesection.style.display = 'flex';
+			thesection.animate(keyframes,timing);
+		}
+
+		// events
+
+		// Handle input processing
+		ui_processBtn.addEventListener('click', (e) => {
+			let tmp_txt = ui_myinput.value;
+
+			if(tmp_txt != ""){
+				_thetext = tmp_txt;
+				ui_textshow.innerHTML = `<span>${_thetext}</span>`;
+
+				handleTabs(1);
+			} else {
+				alert("type something first");
+			}
+		});
+
+		// Handle text encryption
+		ui_encbtn.addEventListener('click', (e) => {
+			var textToEncrypt = _thetext;
+			_enctext = encryptme(textToEncrypt,12,"_#divider#_",3);
+			ui_enctext.innerHTML = `<span>${_enctext}</span>`;
+
+			handleTabs(2);
+		});
+
+		ui_copybtn.addEventListener('click', e => {
+			copytext1(_enctext);
+		});
+	</script>
+
+</body>
+</html>
